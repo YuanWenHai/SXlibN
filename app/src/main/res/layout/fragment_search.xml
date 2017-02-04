@@ -12,5 +12,9 @@
         app:hint="@string/search_hint"
         app:maxSuggestionsCount="5"
         app:navIconEnabled="true"/>
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_search_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"/>
 </LinearLayout>

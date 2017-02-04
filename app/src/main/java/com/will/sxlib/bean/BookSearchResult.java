@@ -10,6 +10,7 @@ public class BookSearchResult {
     private String publishDate;
     private String coverUrl;
     private String press;
+    private String isbn;
 
     public String getIsbn() {
         return isbn;
@@ -19,7 +20,6 @@ public class BookSearchResult {
         this.isbn = isbn;
     }
 
-    private String isbn;
 
 
     public String getTitle() {
