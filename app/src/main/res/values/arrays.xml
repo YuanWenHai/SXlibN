@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_setting_search_ways">
+        <item>@string/title</item>
+        <item>@string/author</item>
+        <item>@string/isbn</item>
+    </string-array>
+    <string-array name="search_setting_sort_ways">
+        <item>@string/score</item>
+        <item>@string/publish_date</item>
+        <item>@string/loan_count</item>
+    </string-array>
+    <string-array name="search_setting_sort_orders">
+        <item>@string/desc</item>
+        <item>@string/asc</item>
+    </string-array>
+</resources>

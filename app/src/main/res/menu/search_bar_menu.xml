@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/search_bar_menu_search_way"
+        android:title="@string/search_way"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/search_bar_menu_sort_way"
+        android:title="@string/sort_way"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/search_bar_menu_sort_order"
+        android:title="@string/sort_order"
+        app:showAsAction="never"/>
+</menu>

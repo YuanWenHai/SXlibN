@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">SXLib</string>
     <string name="search_hint">Search</string>
+    <string name="search_setting">设置搜索规则</string>
+    <string name="search_way">检索方式</string>
+    <string name="sort_way">排序规则</string>
+    <string name="sort_order">排序顺序</string>
+    <string name="title">标题</string>
+    <string name="author">作者</string>
+    <string name="isbn">ISBN</string>
+    <string name="asc">升序</string>
+    <string name="desc">降序</string>
+    <string name="score">匹配度</string>
+    <string name="publish_date">出版时间</string>
+    <string name="loan_count">借阅数</string>
 </resources>

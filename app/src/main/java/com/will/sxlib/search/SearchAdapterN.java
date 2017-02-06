@@ -1,6 +1,7 @@
 package com.will.sxlib.search;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -43,6 +44,7 @@ public class SearchAdapterN extends LoadingAdapter<BookSearchResult> implements 
     @Override
     public void loadData(int i) {
         mHelper.searchWithUrl(mSearchBuilder.pageNumber(i).build(),this);
+        Log.e("search url",mSearchBuilder.pageNumber(i).build());
     }
 
     @Override
