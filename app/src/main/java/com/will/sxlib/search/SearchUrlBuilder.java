@@ -31,14 +31,15 @@ public class SearchUrlBuilder {
     private String mSearchWay = SEARCH_WAY_TITLE;
     private String mSortWay = SORT_WAY_SCORE;
     private String mSortOrder = SORT_ORDER_DESCEND;
-    private int mPageCount = 10;
+    private int mPageItemCount = 10;
+    private int mPageNumber = 1;
 
     public String build(){
         if(mSearchWay == null){
             throw new IllegalArgumentException("you have to set searchKey before build!");
         }
         return SEARCH_HOST + "&searchWay=" + mSearchWay + "&sortWay=" + mSortWay + "&sortOrder="
-                + mSortOrder + "&rows=" + mPageCount + "&q="+mSearchKey;
+                + mSortOrder + "&rows=" + mPageItemCount + "&q="+mSearchKey + "&page=" + mPageNumber;
     }
 
     public SearchUrlBuilder searchWay(String searchWay){
@@ -53,12 +54,16 @@ public class SearchUrlBuilder {
         mSortOrder = sortOrder;
         return this;
     }
-    public SearchUrlBuilder pageCount(int pageCount){
-        mPageCount = pageCount;
+    public SearchUrlBuilder pageItemCount(int pageItemCount){
+        mPageItemCount = pageItemCount;
         return this;
     }
     public SearchUrlBuilder searchKey(String searchKey){
         mSearchKey = searchKey;
+        return this;
+    }
+    public SearchUrlBuilder pageNumber(int pageNumber){
+        mPageNumber = pageNumber;
         return this;
     }
 

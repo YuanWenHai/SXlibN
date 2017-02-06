@@ -24,37 +24,28 @@
             <TextView
                 android:id="@+id/search_item_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="6dp"
-                style="@style/search_item_text_appearance"
+                android:layout_marginTop="5dp"
+                style="@style/search_item_appearance"
                 tools:text="九州缥缈录"/>
             <TextView
                 android:id="@+id/search_item_author"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="6dp"
-                style="@style/search_item_text_appearance"
+                style="@style/search_item_appearance"
                 tools:text="作者：烟雨江南" />
             <TextView
                 android:id="@+id/search_item_isbn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="6dp"
-                style="@style/search_item_text_appearance"
+                style="@style/search_item_appearance"
                 tools:text="ISBN: 956154545633" />
             <TextView
                 android:id="@+id/search_item_publish_date"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="6dp"
-                style="@style/search_item_text_appearance"
+                style="@style/search_item_appearance"
                 tools:text="出版日期：2016.3" />
             <TextView
                 android:id="@+id/search_item_press"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="6dp"
-                style="@style/search_item_text_appearance"
+                style="@style/search_item_appearance"
                 tools:text="出版社：北京大学出版社" />
 
         </LinearLayout>
