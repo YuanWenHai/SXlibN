@@ -6,5 +6,5 @@ import android.app.Fragment;
  * Created by will on 2017/2/4.
  */
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements OnKeyListener{
 }

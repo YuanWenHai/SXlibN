@@ -1,121 +1,98 @@
 package com.will.sxlib.search;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.will.recyclerviewloadingadapter.BaseRecyclerViewHolder;
+import com.will.recyclerviewloadingadapter.LoadingAdapter;
 import com.will.sxlib.R;
 import com.will.sxlib.bean.BookSearchResult;
-import com.will.sxlib.utils.Common;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 /**
  * Created by will on 2017/2/5.
+ * <p>一些说明</p>
+ * <p>基于LoadingAdapter拓展，增加了一些需要的特性</p>
+ * <p>因为有中断当前加载并进行新加载的需求，故使用{@link #updateWithVerification(List, int)}方法,意图防止异步加载导致的错误</p>
+ *
  */
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> implements SearchHelper.RequestCallback {
-    private OnItemClickListener mListener;
-    private List<BookSearchResult> mResults;
+public class SearchAdapter extends LoadingAdapter<BookSearchResult> {
     private Context mContext;
+    private boolean hasMore = true;
     private SearchHelper mHelper;
+    private SearchUrlBuilder mSearchBuilder;
+    private WeakHashMap<Integer,SearchHelper.RequestCallback> mCallbacks;
 
     public SearchAdapter(Context context){
+        super(R.layout.fragment_search_item);
         mContext = context;
-        mResults = new ArrayList<>();
         mHelper = new SearchHelper();
+        mCallbacks = new WeakHashMap<>();
     }
 
-    public void search(SearchUrlBuilder builder){
-        mResults.clear();
-        mHelper.search(builder,this);
+    public void setSearchBuilder(SearchUrlBuilder builder){
+        mSearchBuilder = builder;
     }
-
-    public void nextPage(){
-        mHelper.nextPage(this);
-    }
-
 
     @Override
-    public void onSuccess(List<BookSearchResult> list) {
-        if(list.size() < 10){
-            //已至末尾
+    public boolean hasMoreData() {
+        return hasMore;
+    }
+
+    @Override
+    public void loadData(int page,int requestID) {
+        SearchHelper.RequestCallback callback;
+        callback = mCallbacks.get(requestID);
+        if(callback == null){
+            callback = new MyLoadingCallback(requestID);
+            mCallbacks.put(requestID,callback);
         }
-        mResults.addAll(list);
-        notifyDataSetChanged();
+        mHelper.searchWithUrl(mSearchBuilder.pageNumber(page).build(),callback);
+        Log.e("search url",mSearchBuilder.pageNumber(page).build());
     }
 
     @Override
-    public void onFailure() {
-        Common.makeToast("加载失败");
-    }
+    public void convert(BaseRecyclerViewHolder baseRecyclerViewHolder, BookSearchResult bookSearchResult) {
+        baseRecyclerViewHolder.setText(R.id.search_item_title,bookSearchResult.getTitle());
+        baseRecyclerViewHolder.setText(R.id.search_item_author,"作者："  + bookSearchResult.getAuthor());
+        baseRecyclerViewHolder.setText(R.id.search_item_isbn,"ISBN：" + bookSearchResult.getIsbn());
+        baseRecyclerViewHolder.setText(R.id.search_item_press,"出版社：" + bookSearchResult.getPress());
+        baseRecyclerViewHolder.setText(R.id.search_item_publish_date,"出版日期：" + bookSearchResult.getPublishDate());
 
+        if(bookSearchResult.getCoverUrl() != null){
+            Picasso.with(mContext).load(bookSearchResult.getCoverUrl()).placeholder(R.drawable.loading_image).into((ImageView)baseRecyclerViewHolder.getView(R.id.search_item_cover));
+        }else{
+            Picasso.with(mContext).load(R.drawable.no_image_available).into((ImageView)baseRecyclerViewHolder.getView(R.id.search_item_cover));
 
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
-        mListener = onItemClickListener;
-    }
-
-
-    @Override
-    public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SearchViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_search_item,parent,false));
-    }
-
-    @Override
-    public void onBindViewHolder(SearchViewHolder holder, int position) {
-        BookSearchResult result = mResults.get(position);
-        holder.title.setText(result.getTitle());
-        holder.author.setText(result.getAuthor());
-        holder.press.setText(result.getPress());
-        holder.publishDate.setText(result.getPublishDate());
-        holder.isbn.setText(result.getIsbn());
-
-        if(result.getCoverUrl() != null){
-            Picasso.with(mContext).load(result.getCoverUrl()).into(holder.cover);
         }
     }
 
+
     @Override
-    public int getItemCount() {
-        return mResults.size();
+    protected Animation getItemAnimation() {
+        return AnimationUtils.loadAnimation(mContext,R.anim.adapter_item_enter_animation);
     }
-
-
-
-    class SearchViewHolder extends RecyclerView.ViewHolder{
-        public ImageView cover;
-        public TextView title,author,press,publishDate,isbn;
-        public SearchViewHolder(View view){
-            super(view);
-            cover = (ImageView) view.findViewById(R.id.search_item_cover);
-            title = (TextView) view.findViewById(R.id.search_item_title);
-            author = (TextView) view.findViewById(R.id.search_item_author);
-            press = (TextView) view.findViewById(R.id.search_item_press);
-            publishDate = (TextView) view.findViewById(R.id.search_item_publish_date);
-            isbn = (TextView) view.findViewById(R.id.search_item_isbn);
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(mListener != null){
-                        mListener.onClick(mResults.get(getAdapterPosition()));
-                    }
-                }
-            });
+     private class MyLoadingCallback implements SearchHelper.RequestCallback{
+        private int requestID;
+         MyLoadingCallback(int requestID){
+            this.requestID = requestID;
         }
+         @Override
+         public void onSuccess(List<BookSearchResult> list) {
+             hasMore = list.size() == 10;
+             updateWithVerification(list,requestID);
+         }
 
-    }
-
-
-
-    interface OnItemClickListener{
-        void onClick(BookSearchResult book);
-    }
+         @Override
+         public void onFailure() {
+            updateWithVerification(false,requestID);
+         }
+     }
 }

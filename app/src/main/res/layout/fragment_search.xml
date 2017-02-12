@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_search_recycler_view"
-        android:layout_marginTop="?attr/actionBarSize"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_search_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:padding="5dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_search_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/fragment_search_toolbar"
+            android:layout_alignEnd="@+id/fragment_search_search_view" />
+    </android.support.v4.widget.SwipeRefreshLayout>
     <com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/fragment_search_search_view"
         android:layout_width="match_parent"
@@ -18,4 +27,39 @@
         app:hint="@string/search_hint"
         app:maxSuggestionsCount="5"
         app:navIconEnabled="true"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/fragment_search_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="?attr/colorPrimary"
+        android:visibility="invisible"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark"
+        tools:visibility="visible">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/fragment_search_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:gravity="center"
+                tools:text="Java"/>
+            <TextView
+                android:id="@+id/fragment_search_toolbar_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightGrey"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:paddingBottom="5dp"
+                tools:text="发现相关条目542条"/>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+
 </RelativeLayout>

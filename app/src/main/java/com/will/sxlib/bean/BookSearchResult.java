@@ -11,7 +11,7 @@ public class BookSearchResult {
     private String coverUrl;
     private String press;
     private String isbn;
-
+    private int resultNumber;
     public String getIsbn() {
         return isbn;
     }
@@ -63,4 +63,11 @@ public class BookSearchResult {
     }
 
 
+    public int getResultNumber() {
+        return resultNumber;
+    }
+
+    public void setResultNumber(int resultNumber) {
+        this.resultNumber = resultNumber;
+    }
 }

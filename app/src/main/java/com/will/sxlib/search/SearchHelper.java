@@ -1,5 +1,8 @@
 package com.will.sxlib.search;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.will.sxlib.bean.BookSearchResult;
 import com.will.sxlib.decode.HtmlUtils;
 import com.will.sxlib.net.OkHttpUtils;
@@ -23,6 +26,7 @@ import okhttp3.Response;
 public class SearchHelper {
     private int pageNumber = 1;
     private SearchUrlBuilder searchKey;
+    private Handler mHandler = new Handler(Looper.myLooper());
 
     public void search(SearchUrlBuilder builder,RequestCallback callback){
         searchKey = builder;
@@ -46,7 +50,12 @@ public class SearchHelper {
         OkHttpUtils.getInstance().requestFromUrl(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onFailure();
+                    }
+                });
             }
 
             @Override
@@ -72,8 +81,13 @@ public class SearchHelper {
         OkHttpUtils.getInstance().requestFromUrl(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onSuccess(list);
-                Common.makeToast("获取书籍封面失败");
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess(list);
+                        Common.makeToast("获取书籍封面失败");
+                    }
+                });
             }
 
             @Override
@@ -96,7 +110,12 @@ public class SearchHelper {
                         }
 
                     }
-                    callback.onSuccess(list);
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onSuccess(list);
+                        }
+                    });
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
