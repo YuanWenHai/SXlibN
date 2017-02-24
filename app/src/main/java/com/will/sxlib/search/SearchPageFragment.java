@@ -2,6 +2,7 @@ package com.will.sxlib.search;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -22,10 +23,13 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.will.recyclerviewloadingadapter.BaseRecyclerViewHolder;
 import com.will.recyclerviewloadingadapter.LoadingAdapter;
 import com.will.sxlib.R;
 import com.will.sxlib.base.BaseFragment;
+import com.will.sxlib.book.BookDetailActivity;
 import com.will.sxlib.config.ConfigManager;
+import com.will.sxlib.db.DBUtil;
 
 /**
  * Created by will on 2017/2/4.
@@ -50,6 +54,12 @@ public class SearchPageFragment extends BaseFragment {
 
         mAdapter = new SearchAdapter(getActivity());
         mAdapter.setAllowInterrupt(true);
+        mAdapter.setOnItemClickListener(new LoadingAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClicked(Object item, BaseRecyclerViewHolder holder) {
+                startActivity(new Intent(getActivity(), BookDetailActivity.class));
+            }
+        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnStartLoadingListener(new LoadingAdapter.OnLoadingListener() {
@@ -73,7 +83,7 @@ public class SearchPageFragment extends BaseFragment {
 
         mSearchBar = (MaterialSearchBar) view.findViewById(R.id.fragment_search_search_view);
         mSearchBar.inflateMenu(R.menu.search_bar_menu);
-
+        mSearchBar.setLastSuggestions(DBUtil.getInstance(getActivity()).getSearchHistoryFromDB());
         mSearchBar.getMenu().setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -216,6 +226,12 @@ public class SearchPageFragment extends BaseFragment {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onPause() {
+        DBUtil.getInstance(getActivity()).insertSearchHistoryToDB(mSearchBar.getLastSuggestions());
+        super.onResume();
     }
 
     private void updateSubtitleText(){

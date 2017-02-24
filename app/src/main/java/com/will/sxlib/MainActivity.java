@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.will.sxlib.base.BaseFragment;
+import com.will.sxlib.db.DBUtil;
 import com.will.sxlib.search.SearchPageFragment;
 
 import java.lang.ref.WeakReference;
@@ -28,5 +29,12 @@ public class MainActivity extends AppCompatActivity {
            return;
         }
         super.onBackPressed();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DBUtil.onDestroy();
     }
 }

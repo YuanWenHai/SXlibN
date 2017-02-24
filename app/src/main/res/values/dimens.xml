@@ -2,4 +2,5 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="search_item_view_height">180dp</dimen>
     <dimen name="search_item_image_width">120dp</dimen>
+    <dimen name="book_detail_toolbar_height">206dp</dimen>
 </resources>

@@ -35,7 +35,7 @@ public class HtmlUtils {
             searchResult.setAuthor(divs.get(2).select("a").text());
             searchResult.setPress(divs.get(3).select("a").text());
             String wholeString = divs.get(3).text();
-            searchResult.setPublishDate(wholeString.substring(wholeString.lastIndexOf(":")));
+            searchResult.setPublishDate(wholeString.substring(wholeString.lastIndexOf(":") +1).replaceAll(" ",""));
             list.add(searchResult);
         }
         return list;
