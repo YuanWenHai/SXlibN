@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,8 +27,8 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.will.recyclerviewloadingadapter.BaseRecyclerViewHolder;
 import com.will.recyclerviewloadingadapter.LoadingAdapter;
 import com.will.sxlib.R;
-import com.will.sxlib.base.BaseFragment;
-import com.will.sxlib.book.BookDetailActivity;
+import com.will.sxlib.base.MainBaseFragment;
+import com.will.sxlib.bookDetail.BookDetailActivity;
 import com.will.sxlib.config.ConfigManager;
 import com.will.sxlib.db.DBUtil;
 
@@ -35,7 +36,7 @@ import com.will.sxlib.db.DBUtil;
  * Created by will on 2017/2/4.
  */
 
-public class SearchPageFragment extends BaseFragment {
+public class SearchPageFragmentMain extends MainBaseFragment {
     private RecyclerView mRecyclerView;
     private SearchAdapter mAdapter;
     private Toolbar mToolbar;
@@ -57,7 +58,12 @@ public class SearchPageFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new LoadingAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(Object item, BaseRecyclerViewHolder holder) {
-                startActivity(new Intent(getActivity(), BookDetailActivity.class));
+                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(getActivity(), holder.itemView, getString(R.string.book_card_transition_name));
+                startActivity(intent, options.toBundle());
+
+                //startActivity(new Intent(getActivity(), BookDetailActivity.class));
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -66,7 +72,7 @@ public class SearchPageFragment extends BaseFragment {
             @Override
             public void onSuccess() {
                 mRefreshLayout.setRefreshing(false);
-               updateSubtitleText();
+                updateSubtitleText();
             }
 
             @Override

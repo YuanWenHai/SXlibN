@@ -1,4 +1,4 @@
-package com.will.sxlib.book;
+package com.will.sxlib.bookDetail;
 
 import android.os.Bundle;
 
@@ -15,5 +15,10 @@ public class BookDetailActivity extends BaseActivity {
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
+        init();
+    }
+
+    private void init(){
+
     }
 }

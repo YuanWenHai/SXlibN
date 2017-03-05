@@ -13,6 +13,7 @@
     <string name="score">匹配度</string>
     <string name="publish_date">出版时间</string>
     <string name="loan_count">借阅数</string>
+    <string name="book_card_transition_name">book_card</string>
     <string name="test_long_content">作者：林二
 链接：https://www.zhihu.com/question/25066075/answer/29992667
 来源：知乎

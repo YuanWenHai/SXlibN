@@ -3,4 +3,7 @@
     <dimen name="search_item_view_height">180dp</dimen>
     <dimen name="search_item_image_width">120dp</dimen>
     <dimen name="book_detail_toolbar_height">206dp</dimen>
+    <dimen name="book_detail_card_height">180dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="status_bar_height">24dp</dimen>
 </resources>
