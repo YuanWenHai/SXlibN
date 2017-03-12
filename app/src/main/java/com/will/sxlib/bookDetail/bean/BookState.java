@@ -1,24 +1,31 @@
-package com.will.sxlib.bean;
+package com.will.sxlib.bookDetail.bean;
+
+import com.will.sxlib.utils.Common;
+
+import java.io.Serializable;
 
 /**
  * Created by will on 2017/3/5.
  */
 
-public class BookState {
+public class BookState implements Serializable{
+
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+
     //索书号
-    private String callno;
+    private String callno = "";
     //条码号
-    private String barcode;
+    private String barcode = "";
     //状态
-    private String state;
+    private String state = "";
     //应还日期:yyyy-MM-dd
-    private String returnDate;
+    private String returnDate = "";
     //借阅日期
-    private String loadDate;
+    private String loanDate = "";
     //所在位置
-    private String local;
+    private String local = "";
     //书籍类型
-    private String type;
+    private String type = "";
     //借阅次数
     private int loanNumber;
     //续借次数
@@ -56,14 +63,20 @@ public class BookState {
         this.returnDate = returnDate;
     }
 
-    public String getLoadDate() {
-        return loadDate;
+    public void setReturnDate(long timeMillis){
+        returnDate = Common.convertTimeWithPattern(timeMillis,DATE_FORMAT);
+    }
+    public String getLoanDate() {
+        return loanDate;
     }
 
-    public void setLoadDate(String loadDate) {
-        this.loadDate = loadDate;
+    public void setLoanDate(String loanDate) {
+        this.loanDate = loanDate;
     }
 
+    public void setLoanDate(long timeMills){
+        loanDate = Common.convertTimeWithPattern(timeMills,DATE_FORMAT);
+    }
     public String getLocal() {
         return local;
     }
