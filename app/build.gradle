@@ -24,6 +24,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    //大概是因为这些依赖类库中有不同的v7依赖，所以会出这样的warning，先搁置一下
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:palette-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
@@ -35,6 +36,7 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.3.0'
     compile project(':recyclerviewloadingadapter')
     compile 'com.github.ksoichiro:android-observablescrollview:1.6.0'
-    compile 'jp.wasabeef:blurry:2.1.0'
+    compile 'me.zhanghai.android.materialratingbar:library:1.0.2'
+
 
 }

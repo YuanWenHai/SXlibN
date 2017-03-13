@@ -1,7 +1,6 @@
 package com.will.sxlib.bookDetail;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.will.sxlib.R;
 import com.will.sxlib.base.BaseActivity;
@@ -34,12 +33,14 @@ public class BookDetailActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.e("catalog",new BookDescription(response.body().string()).getCatalog())
+                BookDescription description = new BookDescription(response.body().string());
+               /* Log.e("catalog",description.getCatalog());
+                Log.e("summary",description.getSummary());*/
 ;            }
         });
     }
 
     private void init(){
-
+        getFragmentManager().beginTransaction().add(R.id.book_detail_container,new BookCatalogFragment()).commit();
     }
 }
