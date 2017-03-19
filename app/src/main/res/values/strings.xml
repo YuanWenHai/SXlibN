@@ -17,6 +17,8 @@
     <string name="book_summary">书籍简介</string>
     <string name="book_catalog">书籍目录</string>
     <string name="douban_rating">豆瓣评分</string>
+    <string name="author_intro">作者信息</string>
+    <string name="test_author_intro">罗升阳，1984年出生，2007年毕业于浙江大学计算机系，取得学士学位，2010年毕业于上海交通大学计算机系，取得硕士学位。毕业后一直从事于互联网软件开发，并且致力于移动平台的研究，特别是对Android平台有深入的理解和研究。在国内知名IT技术社区CSDN上发表了数十篇高质量的Android系统原创性文章，并且开设博客专栏--《老罗的Android之旅》，积极与网友互动，深受大家喜爱，访问量一直居于前茅</string>
     <string name="test_long_content">作者：林二
 链接：https://www.zhihu.com/question/25066075/answer/29992667
 来源：知乎

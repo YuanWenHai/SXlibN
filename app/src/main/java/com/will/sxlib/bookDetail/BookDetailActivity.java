@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.will.sxlib.R;
 import com.will.sxlib.base.BaseActivity;
 import com.will.sxlib.bookDetail.bean.BookDescription;
+import com.will.sxlib.bookDetail.bean.BookStateFragment;
 import com.will.sxlib.constant.Urls;
 import com.will.sxlib.net.OkHttpUtils;
 
@@ -24,8 +25,12 @@ public class BookDetailActivity extends BaseActivity {
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
-        init();
-        OkHttpUtils.getInstance().requestFromUrl(Urls.DOUBAN_ISBN_SEARCH_URL+"978-7-5083-5393-7", new Callback() {
+        //init();
+        getFragmentManager().beginTransaction().add(R.id.book_detail_container,new BookStateFragment()).commit();
+    }
+
+    private void init(){
+        OkHttpUtils.getInstance().requestFromUrl(Urls.DOUBAN_ISBN_SEARCH_URL+"9787121181085", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -34,13 +39,17 @@ public class BookDetailActivity extends BaseActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 BookDescription description = new BookDescription(response.body().string());
-               /* Log.e("catalog",description.getCatalog());
-                Log.e("summary",description.getSummary());*/
-;            }
+                final BookDescriptionFragment fragment = new BookDescriptionFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("description",description);
+                fragment.setArguments(bundle);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getFragmentManager().beginTransaction().add(R.id.book_detail_container,fragment).commit();
+                    }
+                });
+                ;            }
         });
-    }
-
-    private void init(){
-        getFragmentManager().beginTransaction().add(R.id.book_detail_container,new BookCatalogFragment()).commit();
     }
 }

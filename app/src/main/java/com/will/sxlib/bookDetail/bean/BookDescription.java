@@ -57,6 +57,8 @@ public class BookDescription implements Serializable{
                 rating.min = ratingObject.getInt("min");
                 rating.numRaters = ratingObject.getInt("numRaters");
                 rating.average = ratingObject.getString("average");
+            }else{
+                rating.isEmpty(true);
             }
 
             String catalog = baseObject.getString("catalog");
@@ -74,11 +76,18 @@ public class BookDescription implements Serializable{
     }
 
 
-    class Rating implements Serializable{
-         int max;
-         int min;
-         int numRaters;
-         String average = "0";
+    public class Rating implements Serializable{
+         public int max;
+         public int min;
+         public int numRaters;
+         public String average = "0";
+        private boolean empty;
+        private void isEmpty(boolean which){
+            empty = which;
+        }
+        public boolean isEmpty(){
+            return empty;
+        }
     }
     private String getFormattedCatalog(String originalCatalog){
         String[] splited = originalCatalog.split("\\s+");
@@ -89,4 +98,28 @@ public class BookDescription implements Serializable{
         return builder.toString();
     }
 
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
+    }
+
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public void setAuthorIntro(String authorIntro) {
+        this.authorIntro = authorIntro;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public void setPages(String pages) {
+        this.pages = pages;
+    }
 }
