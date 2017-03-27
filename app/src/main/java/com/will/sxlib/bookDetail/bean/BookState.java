@@ -11,7 +11,8 @@ import java.io.Serializable;
 public class BookState implements Serializable{
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
-
+    //因为表单的实现方式是recycler view，所以需要一个内容为表单title的item对象
+    private static BookState titleItem;
     //索书号
     private String callno = "";
     //条码号
@@ -27,9 +28,28 @@ public class BookState implements Serializable{
     //书籍类型
     private String type = "";
     //借阅次数
-    private int loanNumber;
+    private String loanNumber;
     //续借次数
-    private int renewNumber;
+    private String renewNumber;
+
+    private BookState(String callno, String state, String returnDate, String loanDate, String local, String type, String loanNumber, String renewNumber) {
+        this.callno = callno;
+        this.state = state;
+        this.returnDate = returnDate;
+        this.loanDate = loanDate;
+        this.local = local;
+        this.type = type;
+        this.loanNumber = loanNumber;
+        this.renewNumber = renewNumber;
+    }
+    public static BookState getTitleItem(){
+        if (titleItem == null){
+            titleItem = new BookState("索书号", "馆藏状态", "应还日期", "借阅日期", "馆藏位置", "书籍类型", "借阅次数", "续借次数");
+        }
+        return titleItem;
+    }
+
+    public BookState(){}
 
     public String getCallno() {
         return callno;
@@ -93,19 +113,21 @@ public class BookState implements Serializable{
         this.type = type;
     }
 
-    public int getLoanNumber() {
+    public String getLoanNumber() {
         return loanNumber;
     }
 
-    public void setLoanNumber(int loanNumber) {
+    public void setLoanNumber(String loanNumber) {
         this.loanNumber = loanNumber;
     }
 
-    public int getRenewNumber() {
+    public String getRenewNumber() {
         return renewNumber;
     }
 
-    public void setRenewNumber(int renewNumber) {
+    public void setRenewNumber(String renewNumber) {
         this.renewNumber = renewNumber;
     }
+
+
 }

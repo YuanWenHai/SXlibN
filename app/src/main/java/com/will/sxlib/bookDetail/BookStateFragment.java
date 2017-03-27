@@ -1,4 +1,4 @@
-package com.will.sxlib.bookDetail.bean;
+package com.will.sxlib.bookDetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 
 import com.will.sxlib.R;
 import com.will.sxlib.base.BaseFragment;
+import com.will.sxlib.bookDetail.bean.BookState;
+
+import java.util.ArrayList;
 
 /**
  * Created by will on 2017/3/19.
@@ -21,33 +24,12 @@ public class BookStateFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_state,container,false);
+        ArrayList<BookState> data = (ArrayList<BookState>) getArguments().getSerializable("book_state");
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_book_state_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new StateAdapter());
+        recyclerView.setAdapter(new BookStateAdapter(data));
         return view;
     }
 
-    class StateAdapter extends RecyclerView.Adapter{
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_book_state_item,parent,false);
-            return new StateViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 10;
-        }
-    }
-    static class StateViewHolder extends RecyclerView.ViewHolder{
-        public StateViewHolder(View view){
-            super(view);
-        }
-    }
 
 }

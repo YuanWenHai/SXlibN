@@ -2,23 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/colorAccent">
+    android:background="@color/grey">
     <TextView
+        android:id="@+id/fragment_book_state_item_callno"
        style="@style/BookStateTableTextItemAppearance" />
     <TextView
+        android:id="@+id/fragment_book_state_item_state"
         style="@style/BookStateTableTextItemAppearance" />
     <TextView
+        android:id="@+id/fragment_book_state_item_local"
         style="@style/BookStateTableTextItemAppearance" />
     <TextView
+        android:id="@+id/fragment_book_state_item_type"
         style="@style/BookStateTableTextItemAppearance" />
     <TextView
+        android:id="@+id/fragment_book_state_item_return_date"
         style="@style/BookStateTableTextItemAppearance" />
     <TextView
+        android:id="@+id/fragment_book_state_item_loan_date"
         style="@style/BookStateTableTextItemAppearance" />
     <TextView
+        android:id="@+id/fragment_book_state_item_loan_number"
         style="@style/BookStateTableTextItemAppearance" />
     <TextView
-        style="@style/BookStateTableTextItemAppearance" />
-    <TextView
+        android:id="@+id/fragment_book_state_item_renew_number"
         style="@style/BookStateTableTextItemAppearance" />
 </LinearLayout>

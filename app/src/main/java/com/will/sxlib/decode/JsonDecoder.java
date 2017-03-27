@@ -7,15 +7,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by will on 2017/3/5.
  */
 
 public class JsonDecoder {
-    public static List<BookState> getBookStateFromJsonString(String jsonStr){
-        List<BookState> list = new ArrayList<>();
+    public static ArrayList<BookState> getBookStateFromJsonString(String jsonStr){
+        ArrayList<BookState> list = new ArrayList<>();
        try{
            JSONObject baseObject = new JSONObject(jsonStr);
            JSONArray holdingList = baseObject.getJSONArray("holdingList");
@@ -25,8 +24,8 @@ public class JsonDecoder {
                bookState = new BookState();
                bookState.setBarcode(item.getString("barcode"));
                bookState.setCallno(item.getString("callno"));
-               bookState.setLoanNumber(item.getInt("totalLoanNum"));
-               bookState.setRenewNumber(item.getInt("totalRenewNum"));
+               bookState.setLoanNumber(String.valueOf(item.getInt("totalLoanNum")));
+               bookState.setRenewNumber(String.valueOf(item.getInt("totalRenewNum")));
                //根据字典查询内容随后填充
                bookState.setState(getBookStateWithCode(baseObject,item.getInt("state")));
                bookState.setType(getBookTypeWithCode(baseObject,item.getString("cirtype")));
