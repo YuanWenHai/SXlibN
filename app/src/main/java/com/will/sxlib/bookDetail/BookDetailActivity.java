@@ -27,6 +27,7 @@ public class BookDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_book_detail);
         //init();
         //getFragmentManager().beginTransaction().add(R.id.book_detail_container,new BookStateFragment()).commit();
+        bookDescriptionTest();
         bookStateTest();
     }
 
@@ -47,7 +48,7 @@ public class BookDetailActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        getFragmentManager().beginTransaction().add(R.id.book_detail_container,fragment).commit();
+                        getFragmentManager().beginTransaction().add(R.id.book_detail_description_container,fragment).commit();
                     }
                 });
                 }
@@ -69,7 +70,7 @@ public class BookDetailActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        getFragmentManager().beginTransaction().add(R.id.book_detail_container,fragment).commit();
+                        getFragmentManager().beginTransaction().add(R.id.book_detail_state_container,fragment).commit();
                     }
                 });
             }

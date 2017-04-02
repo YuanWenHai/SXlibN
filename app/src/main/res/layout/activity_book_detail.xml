@@ -79,7 +79,11 @@
                     android:background="@color/white"
                     android:text="@string/test_long_content"/>-->
                 <FrameLayout
-                    android:id="@+id/book_detail_container"
+                    android:id="@+id/book_detail_description_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <FrameLayout
+                    android:id="@+id/book_detail_state_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

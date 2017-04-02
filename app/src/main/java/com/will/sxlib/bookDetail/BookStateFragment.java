@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,6 +27,12 @@ public class BookStateFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_book_state,container,false);
         ArrayList<BookState> data = (ArrayList<BookState>) getArguments().getSerializable("book_state");
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_book_state_recycler_view);
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new BookStateAdapter(data));
         return view;
