@@ -29,6 +29,7 @@ public class HtmlUtils {
         for(Element result : results){
             searchResult = new BookSearchResult();
             searchResult.setResultNumber(resultNumber);
+            searchResult.setRecno(result.select(".bookmeta").attr("bookrecno"));
             searchResult.setIsbn(result.select(".bookcover_img").attr("isbn"));
             searchResult.setTitle(result.select(".bookmetaTitle").text());
             Elements divs = result.select("div");

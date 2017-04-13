@@ -1,10 +1,12 @@
 package com.will.sxlib.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by will on 2017/2/4.
  */
 
-public class BookSearchResult {
+public class BookSearchResult implements Serializable{
     private String title;
     private String author;
     private String publishDate;
@@ -13,7 +15,7 @@ public class BookSearchResult {
     private String isbn;
     private int resultNumber;
     //类似书籍数据库识别号之类的东西，用于索引书籍详情界面，书籍在馆状态等.
-    private int recno;
+    private String recno;
     public String getIsbn() {
         return isbn;
     }
@@ -73,11 +75,11 @@ public class BookSearchResult {
         this.resultNumber = resultNumber;
     }
 
-    public int getRecno() {
+    public String getRecno() {
         return recno;
     }
 
-    public void setRecno(int recno) {
+    public void setRecno(String recno) {
         this.recno = recno;
     }
 }

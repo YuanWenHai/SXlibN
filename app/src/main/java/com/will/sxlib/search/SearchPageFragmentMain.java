@@ -28,6 +28,7 @@ import com.will.recyclerviewloadingadapter.BaseRecyclerViewHolder;
 import com.will.recyclerviewloadingadapter.LoadingAdapter;
 import com.will.sxlib.R;
 import com.will.sxlib.base.MainBaseFragment;
+import com.will.sxlib.bean.BookSearchResult;
 import com.will.sxlib.bookDetail.BookDetailActivity;
 import com.will.sxlib.config.ConfigManager;
 import com.will.sxlib.db.DBUtil;
@@ -59,6 +60,7 @@ public class SearchPageFragmentMain extends MainBaseFragment {
             @Override
             public void onItemClicked(Object item, BaseRecyclerViewHolder holder) {
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+                intent.putExtra("result",(BookSearchResult)item);
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(getActivity(), holder.itemView, getString(R.string.book_card_transition_name));
                 startActivity(intent, options.toBundle());
@@ -237,7 +239,7 @@ public class SearchPageFragmentMain extends MainBaseFragment {
     @Override
     public void onPause() {
         DBUtil.getInstance(getActivity()).insertSearchHistoryToDB(mSearchBar.getLastSuggestions());
-        super.onResume();
+        super.onPause();
     }
 
     private void updateSubtitleText(){

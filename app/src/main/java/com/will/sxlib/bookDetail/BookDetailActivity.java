@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.will.sxlib.R;
 import com.will.sxlib.base.BaseActivity;
+import com.will.sxlib.bean.BookSearchResult;
 import com.will.sxlib.bookDetail.bean.BookDescription;
 import com.will.sxlib.constant.Urls;
 import com.will.sxlib.decode.JsonDecoder;
@@ -27,12 +28,16 @@ public class BookDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_book_detail);
         //init();
         //getFragmentManager().beginTransaction().add(R.id.book_detail_container,new BookStateFragment()).commit();
-        bookDescriptionTest();
-        bookStateTest();
+        BookSearchResult result  = (BookSearchResult) getIntent().getSerializableExtra("result");
+        if(result != null){
+            bookDescriptionTest(result.getIsbn());
+            bookStateTest(result.getRecno());
+        }
+
     }
 
-    private void bookDescriptionTest(){
-        OkHttpUtils.getInstance().requestFromUrl(Urls.DOUBAN_ISBN_SEARCH_URL+"9787121181085", new Callback() {
+    private void bookDescriptionTest(String isbn){
+        OkHttpUtils.getInstance().requestFromUrl(Urls.DOUBAN_ISBN_SEARCH_URL+isbn, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -54,8 +59,8 @@ public class BookDetailActivity extends BaseActivity {
                 }
         });
     }
-    private void bookStateTest(){
-        OkHttpUtils.getInstance().requestFromUrl(Urls.SXLIB_REQUEST_HOLDING_URL + "617503", new Callback() {
+    private void bookStateTest(String recNo){
+        OkHttpUtils.getInstance().requestFromUrl(Urls.SXLIB_REQUEST_HOLDING_URL + recNo, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
