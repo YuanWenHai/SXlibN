@@ -27,7 +27,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.will.recyclerviewloadingadapter.BaseRecyclerViewHolder;
 import com.will.recyclerviewloadingadapter.LoadingAdapter;
 import com.will.sxlib.R;
-import com.will.sxlib.base.MainBaseFragment;
+import com.will.sxlib.base.NavigationFragment;
 import com.will.sxlib.bean.BookSearchResult;
 import com.will.sxlib.bookDetail.BookDetailActivity;
 import com.will.sxlib.config.ConfigManager;
@@ -37,7 +37,7 @@ import com.will.sxlib.db.DBUtil;
  * Created by will on 2017/2/4.
  */
 
-public class SearchPageFragmentMain extends MainBaseFragment {
+public class SearchPageFragmentMain extends NavigationFragment {
     private RecyclerView mRecyclerView;
     private SearchAdapter mAdapter;
     private Toolbar mToolbar;
