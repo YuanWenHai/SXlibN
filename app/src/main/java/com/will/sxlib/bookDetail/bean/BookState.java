@@ -14,23 +14,23 @@ public class BookState implements Serializable{
     //因为表单的实现方式是recycler view，所以需要一个内容为表单title的item对象
     private static BookState titleItem;
     //索书号
-    private String callno = "";
+    private String callno = "-";
     //条码号
-    private String barcode = "";
+    private String barcode = "-";
     //状态
-    private String state = "";
+    private String state = "-";
     //应还日期:yyyy-MM-dd
-    private String returnDate = "";
+    private String returnDate = "-";
     //借阅日期
-    private String loanDate = "";
+    private String loanDate = "-";
     //所在位置
-    private String local = "";
+    private String local = "-";
     //书籍类型
-    private String type = "";
+    private String type = "-";
     //借阅次数
-    private String loanNumber;
+    private String loanNumber = "-";
     //续借次数
-    private String renewNumber;
+    private String renewNumber = "-";
 
     private BookState(String callno, String state, String returnDate, String loanDate, String local, String type, String loanNumber, String renewNumber) {
         this.callno = callno;

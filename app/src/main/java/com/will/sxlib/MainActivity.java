@@ -5,28 +5,24 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.will.sxlib.base.NavigationFragment;
 import com.will.sxlib.db.DBUtil;
-import com.will.sxlib.search.SearchPageFragmentMain;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
+import com.will.sxlib.navigation.NavigationController;
+import com.will.sxlib.navigation.NavigationItem;
 
 public class MainActivity extends AppCompatActivity {
-    private List<WeakReference<NavigationFragment>> fragments = new ArrayList<WeakReference<NavigationFragment>>();
-    private WeakReference<NavigationFragment> currentFragment;
+    private NavigationController mController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SearchPageFragmentMain fragment = new SearchPageFragmentMain();
-        getFragmentManager().beginTransaction().add(R.id.fragment_container,fragment).commit();
-        currentFragment = new WeakReference<NavigationFragment>(fragment);
+        mController = new NavigationController();
+        mController.setCurrentFragment(this,R.id.fragment_container, NavigationItem.SEARCH);
     }
 
     @Override
     public void onBackPressed() {
-        if(currentFragment.get() != null && currentFragment.get().onBackPressed()){
-           return;
+        NavigationFragment mFragment = mController.getCurrentFragment(this);
+        if(mFragment != null && mFragment.onBackPressed()){
+            return;
         }
         super.onBackPressed();
     }

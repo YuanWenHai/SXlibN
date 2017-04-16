@@ -29,4 +29,5 @@ public class Common {
         SimpleDateFormat format = new SimpleDateFormat(pattern, Locale.CHINA);
         return format.format(new Date(timeMillis));
     }
+
 }

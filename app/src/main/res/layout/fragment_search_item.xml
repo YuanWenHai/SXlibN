@@ -21,11 +21,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_toEndOf="@id/search_item_cover"
-            android:paddingStart="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="20dp">
             <TextView
                 android:id="@+id/search_item_title"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="5dp"
+                android:textStyle="bold"
                 style="@style/search_item_appearance"
                 tools:text="九州缥缈录"/>
             <TextView

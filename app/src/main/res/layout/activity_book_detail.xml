@@ -38,7 +38,6 @@
                                 android:layout_width="120dp"
                                 android:layout_height="match_parent"
                                 android:padding="5dp"
-                                android:layout_marginStart="5dp"
                                 android:src="@drawable/test_cover"/>
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -50,6 +49,7 @@
                                 <TextView
                                     android:id="@+id/book_detail_title"
                                     android:textStyle="bold"
+                                    android:layout_marginTop="5dp"
                                     android:layout_width="wrap_content"
                                     style="@style/search_item_appearance"
                                     android:text="倚天屠龙记"/>
@@ -58,6 +58,11 @@
                                     android:layout_width="wrap_content"
                                     style="@style/search_item_appearance"
                                     android:text="作者：金庸" />
+                                <TextView
+                                    android:id="@+id/book_detail_isbn"
+                                    android:layout_width="wrap_content"
+                                    style="@style/search_item_appearance"
+                                    android:text="abcde.*"/>
                                 <TextView
                                     android:id="@+id/book_detail_publish_date"
                                     android:layout_width="wrap_content"
