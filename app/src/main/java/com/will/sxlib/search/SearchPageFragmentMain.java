@@ -3,6 +3,7 @@ package com.will.sxlib.search;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,8 +25,8 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.will.recyclerviewloadingadapter.BaseLoadingAdapter;
 import com.will.recyclerviewloadingadapter.BaseRecyclerViewHolder;
-import com.will.recyclerviewloadingadapter.LoadingAdapter;
 import com.will.sxlib.R;
 import com.will.sxlib.base.NavigationFragment;
 import com.will.sxlib.bean.BookSearchResult;
@@ -39,7 +40,7 @@ import com.will.sxlib.db.DBUtil;
 
 public class SearchPageFragmentMain extends NavigationFragment {
     private RecyclerView mRecyclerView;
-    private SearchAdapter mAdapter;
+    private SearchAdapterN mAdapter;
     private Toolbar mToolbar;
     private MaterialSearchBar mSearchBar;
     private SwipeRefreshLayout mRefreshLayout;
@@ -54,9 +55,8 @@ public class SearchPageFragmentMain extends NavigationFragment {
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_search_refresh_layout);
         mRefreshLayout.setEnabled(false);
 
-        mAdapter = new SearchAdapter(getActivity());
-        mAdapter.setAllowInterrupt(true);
-        mAdapter.setOnItemClickListener(new LoadingAdapter.OnItemClickListener() {
+        mAdapter = new SearchAdapterN();
+        mAdapter.setOnItemClickListener(new BaseLoadingAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(Object item, BaseRecyclerViewHolder holder) {
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
@@ -70,24 +70,6 @@ public class SearchPageFragmentMain extends NavigationFragment {
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnStartLoadingListener(new LoadingAdapter.OnLoadingListener() {
-            @Override
-            public void onSuccess() {
-                mRefreshLayout.setRefreshing(false);
-                updateSubtitleText();
-            }
-
-            @Override
-            public void onFailure() {
-                mRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onLoading() {
-                mRefreshLayout.setRefreshing(true);
-            }
-        });
-
 
         mSearchBar = (MaterialSearchBar) view.findViewById(R.id.fragment_search_search_view);
         mSearchBar.inflateMenu(R.menu.search_bar_menu);
@@ -174,8 +156,13 @@ public class SearchPageFragmentMain extends NavigationFragment {
         builder.searchWay(configManager.getSearchSettingSearchWay())
                 .sortWay(configManager.getSearchSettingSortWay())
                 .sortOrder(configManager.getSearchSettingSortOrder());
-        mAdapter.setSearchBuilder(builder);
-        mAdapter.startLoading();
+        mAdapter.start(builder, new BaseLoadingAdapter.OnLoadingListener() {
+            @Override
+            public void onResult(boolean which) {
+                updateSubtitleText();
+                mRefreshLayout.setRefreshing(false);
+            }
+        });
         mSearchBar.disableSearch();
         revealToolbar(true);
     }
@@ -183,21 +170,26 @@ public class SearchPageFragmentMain extends NavigationFragment {
         int x = mToolbar.getWidth();
         int y = mToolbar.getHeight() / 2;
         float radius = (float) Math.hypot(x,y);
-        if(whether){
-            Animator animator = ViewAnimationUtils.createCircularReveal(mToolbar,x,y,0,radius);
-            mToolbar.setVisibility(View.VISIBLE);
-            animator.start();
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            mToolbar.setVisibility(whether ? View.VISIBLE : View.INVISIBLE);
         }else{
-            Animator animator = ViewAnimationUtils.createCircularReveal(mToolbar,x,y,radius,0);
-            animator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    mToolbar.setVisibility(View.INVISIBLE);
-                }
-            });
-            animator.start();
+            if(whether){
+                Animator animator = ViewAnimationUtils.createCircularReveal(mToolbar,x,y,0,radius);
+                mToolbar.setVisibility(View.VISIBLE);
+                animator.start();
+            }else{
+                Animator animator = ViewAnimationUtils.createCircularReveal(mToolbar,x,y,radius,0);
+                animator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mToolbar.setVisibility(View.INVISIBLE);
+                    }
+                });
+                animator.start();
+            }
         }
+
     }
 
     private void initToolbar(View view){
@@ -226,10 +218,9 @@ public class SearchPageFragmentMain extends NavigationFragment {
     @Override
     public boolean onBackPressed() {
         if(mToolbar.getVisibility() == View.VISIBLE){
-            mAdapter.discardAllLoadingTaskResult();
+            mAdapter.clear(true);
             mRefreshLayout.setRefreshing(false);
             revealToolbar(false);
-            mAdapter.reset();
             mAdapter.notifyDataSetChanged();
             return true;
         }

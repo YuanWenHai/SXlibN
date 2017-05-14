@@ -31,6 +31,10 @@ public class OkHttpUtils {
         return mInstance;
     }
 
+    public Call wrapUrlToCall(String url){
+        Request request = new Request.Builder().url(url).build();
+        return getInstance().getClient().newCall(request);
+    }
     public void requestFromUrl(final String url, final Callback callback){
         Request request = new Request.Builder().url(url).build();
         mClient.newCall(request).enqueue(new Callback() {

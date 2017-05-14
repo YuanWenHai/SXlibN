@@ -25,9 +25,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //大概是因为这些依赖类库中有不同的v7依赖，所以会出这样的warning，先搁置一下
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:palette-v7:25.2.0'
-    compile 'com.android.support:design:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:palette-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'org.jsoup:jsoup:1.10.2'
