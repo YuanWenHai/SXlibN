@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,7 +39,7 @@ import com.will.sxlib.db.DBUtil;
 
 public class SearchPageFragmentMain extends NavigationFragment {
     private RecyclerView mRecyclerView;
-    private SearchAdapterN mAdapter;
+    private SearchAdapter mAdapter;
     private Toolbar mToolbar;
     private MaterialSearchBar mSearchBar;
     private SwipeRefreshLayout mRefreshLayout;
@@ -54,18 +53,17 @@ public class SearchPageFragmentMain extends NavigationFragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_search_recycler_view);
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_search_refresh_layout);
         mRefreshLayout.setEnabled(false);
-
-        mAdapter = new SearchAdapterN();
+        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        mAdapter = new SearchAdapter();
         mAdapter.setOnItemClickListener(new BaseLoadingAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(Object item, BaseRecyclerViewHolder holder) {
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
                 intent.putExtra("result",(BookSearchResult)item);
-                ActivityOptionsCompat options = ActivityOptionsCompat.
+               /* ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(getActivity(), holder.itemView, getString(R.string.book_card_transition_name));
-                startActivity(intent, options.toBundle());
-
-                //startActivity(new Intent(getActivity(), BookDetailActivity.class));
+                startActivity(intent, options.toBundle());*/
+                startActivity(intent);
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -149,13 +147,14 @@ public class SearchPageFragmentMain extends NavigationFragment {
     }
     private void search(String keyword){
         mTitle.setText(keyword);
-        mSubtitle.setText("");
+        mSubtitle.setText("搜索中..");
 
         SearchUrlBuilder builder = new SearchUrlBuilder().searchKey(keyword);
         ConfigManager configManager = ConfigManager.getInstance();
         builder.searchWay(configManager.getSearchSettingSearchWay())
                 .sortWay(configManager.getSearchSettingSortWay())
                 .sortOrder(configManager.getSearchSettingSortOrder());
+        mRefreshLayout.setRefreshing(true);
         mAdapter.start(builder, new BaseLoadingAdapter.OnLoadingListener() {
             @Override
             public void onResult(boolean which) {
@@ -194,6 +193,13 @@ public class SearchPageFragmentMain extends NavigationFragment {
 
     private void initToolbar(View view){
         mToolbar = (Toolbar) view.findViewById(R.id.fragment_search_toolbar);
+        mToolbar.setNavigationIcon(R.drawable.md_nav_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         mTitle = (TextView)view.findViewById(R.id.fragment_search_toolbar_title);
         mSubtitle = (TextView) view.findViewById(R.id.fragment_search_toolbar_subtitle);
         setHasOptionsMenu(true);
@@ -221,7 +227,6 @@ public class SearchPageFragmentMain extends NavigationFragment {
             mAdapter.clear(true);
             mRefreshLayout.setRefreshing(false);
             revealToolbar(false);
-            mAdapter.notifyDataSetChanged();
             return true;
         }
         return false;

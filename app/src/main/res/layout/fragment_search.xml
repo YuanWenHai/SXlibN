@@ -35,7 +35,8 @@
         android:background="?attr/colorPrimary"
         android:visibility="invisible"
         app:theme="@style/ThemeOverlay.AppCompat.Dark"
-        tools:visibility="visible">
+        tools:visibility="visible"
+        app:contentInsetStart="0dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

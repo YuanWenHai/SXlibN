@@ -15,7 +15,8 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 /**
- * Created by will on 2017/5/13.
+ * Created by will on 2017/5/13.<br/>
+ * 拓展了从网络异步加载的功能，内部维护了一个WorkerThread，如果同时有多个Call，则按照入栈顺序执行.
  */
 
 public abstract class AsyncLoadingAdapter<T> extends BaseLoadingAdapter<T> {
@@ -53,9 +54,15 @@ public abstract class AsyncLoadingAdapter<T> extends BaseLoadingAdapter<T> {
      */
     public void release(){
         destroyRunningTasks();
-        mWorkerThread.quit();
+        mWorkerThread.quitSafely();
     }
     public abstract Call obtainTargetCall(int page);
+
+    /**
+     * 将response转换为合适的数据结构返回，此方法将执行于工作线程，勿在其中进行UI操作
+     * @param response response
+     * @return data
+     */
     public abstract List<T> getCorrespondingData(Response response);
     @Override
     public void loadData(int page) {
@@ -108,11 +115,13 @@ public abstract class AsyncLoadingAdapter<T> extends BaseLoadingAdapter<T> {
 
         @Override
         public void onResponse(final Call call, final Response response) throws IOException {
-           mMainThreadHandler.post(new Runnable() {
+            final List<T> data = getCorrespondingData(response);
+            response.close();
+            mMainThreadHandler.post(new Runnable() {
                @Override
                public void run() {
                    mCalls.remove(call);
-                   update(getCorrespondingData(response));
+                   update(data);
                }
            });
         }
