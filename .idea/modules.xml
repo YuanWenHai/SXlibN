@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/MaterialSearchBar/materialsearchbar.iml" filepath="$PROJECT_DIR$/MaterialSearchBar/materialsearchbar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RecyclerViewLoadingAdapter/recyclerviewloadingadapter.iml" filepath="$PROJECT_DIR$/RecyclerViewLoadingAdapter/recyclerviewloadingadapter.iml" />
       <module fileurl="file://$PROJECT_DIR$/SXlibN.iml" filepath="$PROJECT_DIR$/SXlibN.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/recyclerviewloadingadapter/recyclerviewloadingadapter.iml" filepath="$PROJECT_DIR$/recyclerviewloadingadapter/recyclerviewloadingadapter.iml" />
     </modules>
   </component>
 </project>

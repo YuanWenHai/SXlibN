@@ -1,1 +1,1 @@
-include ':app', ':recyclerviewloadingadapter'
+include ':app', ':RecyclerViewLoadingAdapter', ':MaterialSearchBar'

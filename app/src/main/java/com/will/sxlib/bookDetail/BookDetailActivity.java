@@ -1,6 +1,8 @@
 package com.will.sxlib.bookDetail;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,11 +28,19 @@ import okhttp3.Response;
 public class BookDetailActivity extends BaseActivity {
 
     private RequestHelper mRequestHelper;
+    private android.support.v7.widget.Toolbar mToolbar;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
-
+        mToolbar = (Toolbar) findViewById(R.id.book_detail_toolbar);
+        mToolbar.setNavigationIcon(R.drawable.md_nav_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         BookSearchResult result  = (BookSearchResult) getIntent().getSerializableExtra("result");
         if(result != null){
             mRequestHelper = new RequestHelper();
@@ -42,6 +52,7 @@ public class BookDetailActivity extends BaseActivity {
     }
 
     private void initBaseInfo(BookSearchResult result){
+        mToolbar.setTitle(result.getTitle());
         ImageView cover = (ImageView) findViewById(R.id.book_detail_cover);
         TextView title = (TextView) findViewById(R.id.book_detail_title);
         TextView author = (TextView) findViewById(R.id.book_detail_author);

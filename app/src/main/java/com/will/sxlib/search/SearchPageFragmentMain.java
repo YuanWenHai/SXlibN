@@ -50,6 +50,7 @@ public class SearchPageFragmentMain extends NavigationFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search,container,false);
         initToolbar(view);
+        initSearchBar(view);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_search_recycler_view);
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_search_refresh_layout);
         mRefreshLayout.setEnabled(false);
@@ -69,7 +70,77 @@ public class SearchPageFragmentMain extends NavigationFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
 
-        mSearchBar = (MaterialSearchBar) view.findViewById(R.id.fragment_search_search_view);
+
+        return view;
+    }
+    private void search(String keyword){
+        mTitle.setText(keyword);
+        mSubtitle.setText("搜索中..");
+
+        SearchUrlBuilder builder = new SearchUrlBuilder().searchKey(keyword);
+        ConfigManager configManager = ConfigManager.getInstance();
+        builder.searchWay(configManager.getSearchSettingSearchWay())
+                .sortWay(configManager.getSearchSettingSortWay())
+                .sortOrder(configManager.getSearchSettingSortOrder());
+        mRefreshLayout.setRefreshing(true);
+        mAdapter.start(builder, new BaseLoadingAdapter.OnLoadingListener() {
+            @Override
+            public void onResult(boolean which) {
+                updateSubtitleText();
+                mRefreshLayout.setRefreshing(false);
+            }
+        });
+        mSearchBar.disableSearch();
+        revealToolbar(true);
+    }
+    private void revealToolbar(boolean whether){
+        int x = mToolbar.getWidth();
+        int y = mToolbar.getHeight() / 2;
+        float radius = (float) Math.hypot(x,y);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            mToolbar.setVisibility(whether ? View.VISIBLE : View.INVISIBLE);
+        }else{
+            if(whether){
+                Animator animator = ViewAnimationUtils.createCircularReveal(mToolbar,x,y,0,radius);
+                mToolbar.setVisibility(View.VISIBLE);
+                animator.start();
+            }else{
+                Animator animator = ViewAnimationUtils.createCircularReveal(mToolbar,x,y,radius,0);
+                animator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mToolbar.setVisibility(View.INVISIBLE);
+                    }
+                });
+                animator.start();
+            }
+        }
+
+    }
+
+    private void initToolbar(View rootView){
+        mToolbar = (Toolbar) rootView.findViewById(R.id.fragment_search_toolbar);
+        mToolbar.setNavigationIcon(R.drawable.md_nav_back);
+        mTitle = (TextView)rootView.findViewById(R.id.fragment_search_toolbar_title);
+        mSubtitle = (TextView) rootView.findViewById(R.id.fragment_search_toolbar_subtitle);
+        setHasOptionsMenu(true);
+        mToolbar.setTitle("");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+    }
+
+    private void initSearchBar(View rootView){
+        View maskView = rootView.findViewById(R.id.fragment_search_search_view_mask);
+        maskView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mSearchBar.isSearchEnabled()){
+                    mSearchBar.disableSearch();
+                }
+            }
+        });
+        mSearchBar = (MaterialSearchBar) rootView.findViewById(R.id.fragment_search_search_view);
+        mSearchBar.setMaskView(maskView);
         mSearchBar.inflateMenu(R.menu.search_bar_menu);
         mSearchBar.setLastSuggestions(DBUtil.getInstance(getActivity()).getSearchHistoryFromDB());
         mSearchBar.getMenu().setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -135,7 +206,7 @@ public class SearchPageFragmentMain extends NavigationFragment {
 
             @Override
             public void onSearchConfirmed(CharSequence text) {
-               search(text.toString());
+                search(text.toString());
             }
 
             @Override
@@ -143,70 +214,7 @@ public class SearchPageFragmentMain extends NavigationFragment {
 
             }
         });
-        return view;
     }
-    private void search(String keyword){
-        mTitle.setText(keyword);
-        mSubtitle.setText("搜索中..");
-
-        SearchUrlBuilder builder = new SearchUrlBuilder().searchKey(keyword);
-        ConfigManager configManager = ConfigManager.getInstance();
-        builder.searchWay(configManager.getSearchSettingSearchWay())
-                .sortWay(configManager.getSearchSettingSortWay())
-                .sortOrder(configManager.getSearchSettingSortOrder());
-        mRefreshLayout.setRefreshing(true);
-        mAdapter.start(builder, new BaseLoadingAdapter.OnLoadingListener() {
-            @Override
-            public void onResult(boolean which) {
-                updateSubtitleText();
-                mRefreshLayout.setRefreshing(false);
-            }
-        });
-        mSearchBar.disableSearch();
-        revealToolbar(true);
-    }
-    private void revealToolbar(boolean whether){
-        int x = mToolbar.getWidth();
-        int y = mToolbar.getHeight() / 2;
-        float radius = (float) Math.hypot(x,y);
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-            mToolbar.setVisibility(whether ? View.VISIBLE : View.INVISIBLE);
-        }else{
-            if(whether){
-                Animator animator = ViewAnimationUtils.createCircularReveal(mToolbar,x,y,0,radius);
-                mToolbar.setVisibility(View.VISIBLE);
-                animator.start();
-            }else{
-                Animator animator = ViewAnimationUtils.createCircularReveal(mToolbar,x,y,radius,0);
-                animator.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        mToolbar.setVisibility(View.INVISIBLE);
-                    }
-                });
-                animator.start();
-            }
-        }
-
-    }
-
-    private void initToolbar(View view){
-        mToolbar = (Toolbar) view.findViewById(R.id.fragment_search_toolbar);
-        mToolbar.setNavigationIcon(R.drawable.md_nav_back);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        mTitle = (TextView)view.findViewById(R.id.fragment_search_toolbar_title);
-        mSubtitle = (TextView) view.findViewById(R.id.fragment_search_toolbar_subtitle);
-        setHasOptionsMenu(true);
-        mToolbar.setTitle("");
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-    }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -217,8 +225,10 @@ public class SearchPageFragmentMain extends NavigationFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         onBackPressed();
-        mSearchBar.enableSearch();
-        return true;
+        if(item.getItemId() == R.id.search_result_toolbar_menu_search){
+            mSearchBar.enableSearch();
+        }
+       return true;
     }
 
     @Override
