@@ -24,14 +24,14 @@ public class RequestHelper {
     }
     public void removeAllTask(){
         for(Call call : mCalls.values()){
-            if(call != null && !call.isCanceled()){
+            if(call != null ){
                 call.cancel();
             }
         }
     }
     public void RemoveTask(String url){
         Call call = mCalls.get(url);
-        if(call != null && !call.isCanceled()){
+        if(call != null){
             call.cancel();
         }
     }

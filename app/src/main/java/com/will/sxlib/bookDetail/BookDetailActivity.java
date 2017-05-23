@@ -11,11 +11,14 @@ import com.will.sxlib.R;
 import com.will.sxlib.base.BaseActivity;
 import com.will.sxlib.bean.BookSearchResult;
 import com.will.sxlib.bookDetail.bean.BookDescription;
+import com.will.sxlib.bookDetail.bean.BookState;
 import com.will.sxlib.constant.Urls;
 import com.will.sxlib.decode.JsonDecoder;
 import com.will.sxlib.net.RequestHelper;
+import com.will.sxlib.utils.Common;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -71,12 +74,13 @@ public class BookDetailActivity extends BaseActivity {
         mRequestHelper.requestFromUrl(Urls.DOUBAN_ISBN_SEARCH_URL+isbn, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                Common.makeToast("加载豆瓣书籍简介失败");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 BookDescription description = new BookDescription(response.body().string());
+                response.close();
                 final BookDescriptionFragment fragment = new BookDescriptionFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("description",description);
@@ -96,14 +100,16 @@ public class BookDetailActivity extends BaseActivity {
         mRequestHelper.requestFromUrl(Urls.SXLIB_REQUEST_HOLDING_URL + recNo, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                Common.makeToast("加载书籍在馆状态失败");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                ArrayList<BookState> bookStates =  JsonDecoder.getBookStateFromJsonString(response.body().string());
+                response.close();
                 final BookStateFragment fragment = new BookStateFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("book_state", JsonDecoder.getBookStateFromJsonString(response.body().string()));
+                bundle.putSerializable("book_state", bookStates);
                 fragment.setArguments(bundle);
                 runOnUiThread(new Runnable() {
                     @Override
@@ -119,7 +125,7 @@ public class BookDetailActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-       mRequestHelper.removeAllTask();
+        mRequestHelper.removeAllTask();
         super.onDestroy();
     }
 }

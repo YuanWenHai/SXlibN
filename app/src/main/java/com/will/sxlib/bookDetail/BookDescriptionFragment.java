@@ -33,14 +33,6 @@ public class BookDescriptionFragment extends BaseFragment {
         if(description == null){
             return null;
         }
-        /*BookDescription description = new BookDescription("");
-        description.setAuthorIntro(getResources().getText(R.string.test_author_intro).toString());
-        description.setCatalog(getResources().getText(R.string.test_catalog).toString());
-        description.setSummary(getResources().getText(R.string.test_summary).toString());
-        description.getRating().numRaters = 2345;
-        description.getRating().average = "9.2";
-        description.getRating().max = 10;
-        initializeView(view,description);*/
         initializeView(view,description);
         return view;
     }

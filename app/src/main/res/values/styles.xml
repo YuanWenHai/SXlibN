@@ -36,6 +36,11 @@
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">marquee</item>
     </style>
+    <style name="BookDetailActivitySubtitleAppearance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
     <style name="BookStateTableTextItemAppearanceBold" parent="BookStateTableTextItemAppearance">
         <item name="android:textStyle">bold</item>
     </style>

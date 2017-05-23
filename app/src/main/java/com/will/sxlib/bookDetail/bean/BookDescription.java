@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 
 public class BookDescription implements Serializable{
-    private Rating rating;
+    private Rating rating = new Rating();
     private String catalog = "";
     private String summary = "";
     private String authorIntro = "";
@@ -19,7 +19,10 @@ public class BookDescription implements Serializable{
 
 
     public BookDescription(String jsonString){
-        dealJsonString(jsonString);
+        //如果无对应豆瓣数据，则返回空对象.
+        if(!jsonString.contains("book_not_found")){
+            dealJsonString(jsonString);
+        }
     }
 
     public Rating getRating() {
@@ -47,7 +50,6 @@ public class BookDescription implements Serializable{
     }
 
     private void dealJsonString(String jsonString){
-        rating = new Rating();
         try{
             JSONObject baseObject = new JSONObject(jsonString);
             JSONObject ratingObject = baseObject.getJSONObject("rating");
