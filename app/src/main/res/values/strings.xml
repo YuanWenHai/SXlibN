@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SXLib</string>
     <string name="search_hint">Search</string>
-    <string name="search_setting">设置搜索规则</string>
+    <string name="search_setting">搜索规则</string>
     <string name="search_way">检索方式</string>
     <string name="sort_way">排序规则</string>
     <string name="sort_order">排序顺序</string>

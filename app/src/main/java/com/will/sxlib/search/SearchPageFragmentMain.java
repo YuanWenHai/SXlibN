@@ -22,7 +22,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.will.recyclerviewloadingadapter.BaseLoadingAdapter;
 import com.will.recyclerviewloadingadapter.BaseRecyclerViewHolder;
@@ -32,6 +31,7 @@ import com.will.sxlib.bean.BookSearchResult;
 import com.will.sxlib.bookDetail.BookDetailActivity;
 import com.will.sxlib.config.ConfigManager;
 import com.will.sxlib.db.DBUtil;
+import com.will.sxlib.dialog.DialogUtils;
 
 /**
  * Created by will on 2017/2/4.
@@ -146,54 +146,7 @@ public class SearchPageFragmentMain extends NavigationFragment {
         mSearchBar.getMenu().setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.search_bar_menu_search_way:
-
-                        new MaterialDialog.Builder(getActivity())
-                                .title(R.string.search_way)
-                                .items(R.array.search_setting_search_ways)
-                                .itemsCallbackSingleChoice(ConfigManager.getInstance().getSearchSettingSearchWay(), new MaterialDialog.ListCallbackSingleChoice() {
-                                    @Override
-                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        ConfigManager.getInstance().setSearchSettingSearchWay(which);
-                                        return true;
-                                    }
-                                })
-                                .positiveText("确定")
-                                .show();
-                        break;
-                    case R.id.search_bar_menu_sort_way:
-
-                        new MaterialDialog.Builder(getActivity())
-                                .title(R.string.sort_way)
-                                .items(R.array.search_setting_sort_ways)
-                                .itemsCallbackSingleChoice(ConfigManager.getInstance().getSearchSettingSortWay(), new MaterialDialog.ListCallbackSingleChoice() {
-                                    @Override
-                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        ConfigManager.getInstance().setSearchSettingSortWay(which);
-                                        return true;
-                                    }
-                                })
-                                .positiveText("确定")
-                                .show();
-
-                        break;
-                    case R.id.search_bar_menu_sort_order:
-                        new MaterialDialog.Builder(getActivity())
-                                .title(R.string.sort_order)
-                                .items(R.array.search_setting_sort_orders)
-                                .itemsCallbackSingleChoice(ConfigManager.getInstance().getSearchSettingSortOrder(), new MaterialDialog.ListCallbackSingleChoice() {
-                                    @Override
-                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        ConfigManager.getInstance().setSearchSettingSortOrder(which);
-                                        return true;
-                                    }
-                                })
-                                .positiveText("确定")
-                                .show();
-
-                        break;
-                }
+                DialogUtils.showSearchSetting(getActivity()).show();
                 return true;
             }
         });

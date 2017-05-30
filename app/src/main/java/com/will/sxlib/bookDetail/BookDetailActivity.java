@@ -89,7 +89,8 @@ public class BookDetailActivity extends BaseActivity {
                     @Override
                     public void run() {
                         if(!BookDetailActivity.this.isDestroyed()){
-                            getFragmentManager().beginTransaction().add(R.id.book_detail_description_container,fragment).commit();
+                            getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in,android.R.animator.fade_out)
+                                    .add(R.id.book_detail_description_container,fragment).commit();
                         }
                     }
                 });
@@ -115,7 +116,8 @@ public class BookDetailActivity extends BaseActivity {
                     @Override
                     public void run() {
                         if(!BookDetailActivity.this.isDestroyed()){
-                            getFragmentManager().beginTransaction().add(R.id.book_detail_state_container,fragment).commit();
+                            getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in,android.R.animator.fade_out)
+                                    .add(R.id.book_detail_state_container,fragment).commit();
                         }
                     }
                 });

@@ -27,7 +27,9 @@ public class BookStateAdapter extends RecyclerView.Adapter<BookStateAdapter.Book
     private List<BookState> mData = new ArrayList<>();
 
     public BookStateAdapter(List<BookState> data){
-        mData.add(BookState.getTitleItem());
+        if(data.size() != 0){
+            mData.add(BookState.getTitleItem());
+        }
         mData.addAll(data);
     }
 
