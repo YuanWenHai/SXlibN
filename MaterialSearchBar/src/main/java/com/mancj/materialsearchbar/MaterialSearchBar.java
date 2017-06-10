@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -73,6 +74,8 @@ public class MaterialSearchBar extends RelativeLayout implements View.OnClickLis
     private int hintColor;
 
     private boolean navButtonEnabled;
+
+    private OnClickListener menuClickListener;
 
     private View maskView;
 
@@ -155,6 +158,19 @@ public class MaterialSearchBar extends RelativeLayout implements View.OnClickLis
             popupMenu.inflate(menuResource);
             popupMenu.setGravity(Gravity.RIGHT);
         }
+    }
+
+    /**
+     * use menu icon with a menu click listener,do not show the menu.
+     */
+    public void inflateMenu(@NonNull OnClickListener listener){
+        menuClickListener = listener;
+        ImageView menuIcon = (ImageView) findViewById(R.id.mt_menu);
+        RelativeLayout.LayoutParams params = (LayoutParams) searchIcon.getLayoutParams();
+        params.rightMargin = (int) (36*destiny);
+        searchIcon.setLayoutParams(params);
+        menuIcon.setVisibility(VISIBLE);
+        menuIcon.setOnClickListener(this);
     }
 
     /**
@@ -502,7 +518,12 @@ public class MaterialSearchBar extends RelativeLayout implements View.OnClickLis
         }else if (id == R.id.mt_clear){
             searchEdit.setText("");
         }else if (id == R.id.mt_menu){
-            popupMenu.show();
+            if(menuClickListener != null){
+                menuClickListener.onClick(v);
+            }else{
+                popupMenu.show();
+            }
+
         }else if (id == R.id.mt_nav)
             if (listenerExists())
                 onSearchActionListener.onButtonClicked(BUTTON_NAVIGATION);
@@ -753,4 +774,6 @@ public class MaterialSearchBar extends RelativeLayout implements View.OnClickLis
             maskView.startAnimation(animation);
         }
     }
+
+
 }

@@ -16,8 +16,8 @@ public class OkHttpUtils {
     private static OkHttpUtils mInstance;
 
     private final OkHttpClient mClient = new OkHttpClient();
-    private OkHttpUtils(){
 
+    private OkHttpUtils(){
     }
 
     public static OkHttpUtils getInstance(){
@@ -55,5 +55,4 @@ public class OkHttpUtils {
     public void requestFromUrl(Request request,Callback callback){
         mClient.newCall(request).enqueue(callback);
     }
-
 }

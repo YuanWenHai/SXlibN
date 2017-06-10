@@ -3,7 +3,7 @@ package com.will.sxlib.search;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.will.sxlib.bean.BookSearchResult;
+import com.will.sxlib.search.bean.BookSearchResult;
 import com.will.sxlib.decode.HtmlUtils;
 import com.will.sxlib.net.OkHttpUtils;
 import com.will.sxlib.utils.Common;

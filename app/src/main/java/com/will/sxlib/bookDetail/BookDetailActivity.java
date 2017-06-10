@@ -9,12 +9,12 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.will.sxlib.R;
 import com.will.sxlib.base.BaseActivity;
-import com.will.sxlib.bean.BookSearchResult;
+import com.will.sxlib.search.bean.BookSearchResult;
 import com.will.sxlib.bookDetail.bean.BookDescription;
 import com.will.sxlib.bookDetail.bean.BookState;
 import com.will.sxlib.constant.Urls;
 import com.will.sxlib.decode.JsonDecoder;
-import com.will.sxlib.net.RequestHelper;
+import com.will.sxlib.net.UrlTaskExecutor;
 import com.will.sxlib.utils.Common;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ import okhttp3.Response;
 
 public class BookDetailActivity extends BaseActivity {
 
-    private RequestHelper mRequestHelper;
+    private UrlTaskExecutor mUrlTaskExecutor;
     private android.support.v7.widget.Toolbar mToolbar;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class BookDetailActivity extends BaseActivity {
         });
         BookSearchResult result  = (BookSearchResult) getIntent().getSerializableExtra("result");
         if(result != null){
-            mRequestHelper = new RequestHelper();
+            mUrlTaskExecutor = new UrlTaskExecutor();
             initDescription(result.getIsbn());
             initState(result.getRecno());
             initBaseInfo(result);
@@ -71,7 +71,7 @@ public class BookDetailActivity extends BaseActivity {
     }
 
     private void initDescription(String isbn){
-        mRequestHelper.requestFromUrl(Urls.DOUBAN_ISBN_SEARCH_URL+isbn, new Callback() {
+        mUrlTaskExecutor.requestFromUrl(Urls.DOUBAN_ISBN_SEARCH_URL+isbn, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Common.makeToast("加载豆瓣书籍简介失败");
@@ -98,7 +98,7 @@ public class BookDetailActivity extends BaseActivity {
         });
     }
     private void initState(String recNo){
-        mRequestHelper.requestFromUrl(Urls.SXLIB_REQUEST_HOLDING_URL + recNo, new Callback() {
+        mUrlTaskExecutor.requestFromUrl(Urls.SXLIB_REQUEST_HOLDING_URL + recNo, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Common.makeToast("加载书籍在馆状态失败");
@@ -127,7 +127,7 @@ public class BookDetailActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        mRequestHelper.removeAllTask();
+        mUrlTaskExecutor.removeAllTask();
         super.onDestroy();
     }
 }

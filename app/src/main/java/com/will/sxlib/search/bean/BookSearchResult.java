@@ -1,4 +1,4 @@
-package com.will.sxlib.bean;
+package com.will.sxlib.search.bean;
 
 import java.io.Serializable;
 

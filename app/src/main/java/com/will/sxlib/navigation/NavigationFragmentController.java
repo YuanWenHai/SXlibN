@@ -10,10 +10,13 @@ import com.will.sxlib.base.NavigationFragment;
  * Navigation Fragment Controller.
  */
 
-public class NavigationController {
+public class NavigationFragmentController {
     private String  currentFragment;
 
     public void setCurrentFragment(AppCompatActivity activity, int containerId,NavigationItem item){
+        if(currentFragment.equals(item.name())){
+            return;
+        }
         currentFragment = item.name();
         Fragment fragment = getAttachedFragment(activity,item);
         if(fragment == null){

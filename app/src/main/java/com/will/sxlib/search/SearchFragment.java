@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -25,9 +24,10 @@ import android.widget.TextView;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.will.recyclerviewloadingadapter.BaseLoadingAdapter;
 import com.will.recyclerviewloadingadapter.BaseRecyclerViewHolder;
+import com.will.sxlib.MainActivity;
 import com.will.sxlib.R;
 import com.will.sxlib.base.NavigationFragment;
-import com.will.sxlib.bean.BookSearchResult;
+import com.will.sxlib.search.bean.BookSearchResult;
 import com.will.sxlib.bookDetail.BookDetailActivity;
 import com.will.sxlib.config.ConfigManager;
 import com.will.sxlib.db.DBUtil;
@@ -37,7 +37,7 @@ import com.will.sxlib.dialog.DialogUtils;
  * Created by will on 2017/2/4.
  */
 
-public class SearchPageFragmentMain extends NavigationFragment {
+public class SearchFragment extends NavigationFragment {
     private RecyclerView mRecyclerView;
     private SearchAdapter mAdapter;
     private Toolbar mToolbar;
@@ -141,13 +141,11 @@ public class SearchPageFragmentMain extends NavigationFragment {
         });
         mSearchBar = (MaterialSearchBar) rootView.findViewById(R.id.fragment_search_search_view);
         mSearchBar.setMaskView(maskView);
-        mSearchBar.inflateMenu(R.menu.search_bar_menu);
         mSearchBar.setLastSuggestions(DBUtil.getInstance(getActivity()).getSearchHistoryFromDB());
-        mSearchBar.getMenu().setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        mSearchBar.inflateMenu(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public void onClick(View v) {
                 DialogUtils.showSearchSetting(getActivity()).show();
-                return true;
             }
         });
 
@@ -164,7 +162,9 @@ public class SearchPageFragmentMain extends NavigationFragment {
 
             @Override
             public void onButtonClicked(int buttonCode) {
-
+                if(buttonCode == MaterialSearchBar.BUTTON_NAVIGATION){
+                    ((MainActivity)getActivity()).showNavigationDrawer();
+                }
             }
         });
     }

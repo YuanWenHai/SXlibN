@@ -7,7 +7,7 @@ import com.squareup.picasso.Picasso;
 import com.will.recyclerviewloadingadapter.AsyncLoadingAdapter;
 import com.will.recyclerviewloadingadapter.BaseRecyclerViewHolder;
 import com.will.sxlib.R;
-import com.will.sxlib.bean.BookSearchResult;
+import com.will.sxlib.search.bean.BookSearchResult;
 import com.will.sxlib.decode.HtmlUtils;
 import com.will.sxlib.net.OkHttpUtils;
 import com.will.sxlib.utils.Common;

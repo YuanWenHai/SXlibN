@@ -4,6 +4,6 @@
     <item
         android:id="@+id/search_result_toolbar_menu_search"
         android:title="@string/search_hint"
-        android:icon="@drawable/ic_search_1"
+        android:icon="@drawable/ic_search_white"
         app:showAsAction="always"/>
 </menu>

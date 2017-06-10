@@ -57,25 +57,28 @@ public class BookDescriptionFragment extends BaseFragment {
             ratingLayout.setVisibility(View.GONE);
         }
         //summary
+        ExpandableTextView summary = (ExpandableTextView) view.findViewById(R.id.fragment_book_description_text_summary);
         if(!description.getSummary().isEmpty()){
-            ExpandableTextView summary = (ExpandableTextView) view.findViewById(R.id.fragment_book_description_text_summary);
+
             summary.setText(description.getSummary());
         }else{
-            summaryLayout.setVisibility(View.GONE);
+            //summaryLayout.setVisibility(View.GONE);
+            summary.setText("暂无书籍简介");
         }
         //author introduction
+        ExpandableTextView authorIntro = (ExpandableTextView) view.findViewById(R.id.fragment_book_description_text_author_intro);
         if(!description.getAuthorIntro().isEmpty()){
-            ExpandableTextView authorIntro = (ExpandableTextView) view.findViewById(R.id.fragment_book_description_text_author_intro);
             authorIntro.setText(description.getAuthorIntro());
         }else{
             authorIntroLayout.setVisibility(View.GONE);
         }
         //catalog
+        ExpandableTextView catalog = (ExpandableTextView) view.findViewById(R.id.fragment_book_description_text_catalog);
         if(!description.getCatalog().isEmpty()){
-            ExpandableTextView catalog = (ExpandableTextView) view.findViewById(R.id.fragment_book_description_text_catalog);
             catalog.setText(description.getCatalog());
         }else{
-            catalogLayout.setVisibility(View.GONE);
+            //catalogLayout.setVisibility(View.GONE);
+            catalog.setText("暂无书籍目录");
         }
     }
 }

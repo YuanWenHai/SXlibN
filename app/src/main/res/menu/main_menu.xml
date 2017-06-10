@@ -3,7 +3,11 @@
     <group>
         <item
             android:icon="@drawable/icon_search_holo_light"
-            android:title="@string/action_search"
+            android:title="@string/search"
             android:id="@+id/main_menu_search" />
+        <item
+            android:icon="@drawable/ic_home_holo_light"
+            android:title="@string/my_book"
+            android:id="@+id/main_menu_my_book"/>
     </group>
 </menu>

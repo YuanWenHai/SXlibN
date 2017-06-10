@@ -9,10 +9,10 @@ import okhttp3.Request;
 
 /**
  * Created by will on 2017/4/16.
- * 将request封装入一个对象，便于终止任务.
+ * Url Request管理对象，便于在页面关闭时终止所有任务。
  */
 
-public class RequestHelper {
+public class UrlTaskExecutor {
     private WeakHashMap<String,Call> mCalls = new WeakHashMap<>();
 
     public void requestFromUrl(String url, Callback callback){

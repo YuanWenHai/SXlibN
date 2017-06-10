@@ -2,7 +2,7 @@ package com.will.sxlib.decode;
 
 import android.util.Log;
 
-import com.will.sxlib.bean.BookSearchResult;
+import com.will.sxlib.search.bean.BookSearchResult;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
