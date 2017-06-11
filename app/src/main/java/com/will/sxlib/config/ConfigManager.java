@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.will.sxlib.base.BaseApplication;
+import com.will.sxlib.utils.Common;
 
 /**
  * Created by Will on 2017/2/6.
@@ -48,4 +49,18 @@ public class ConfigManager {
     public int getSearchSettingSortOrder(){
         return sp.getInt("search_setting_sort_order",0);
     }
+
+    public  String getUserAccount(){
+        return sp.getString("user_account","");
+    };
+    public  void setUserAccount(String account){
+        spEditor.putString("user_account",account).apply();
+    }
+    public  String getUserPassword(){
+        return sp.getString("user_password","");
+    }
+    public  void setUserPassword(String password){
+        spEditor.putString("user_password", Common.md5(password)).apply();
+    }
+
 }

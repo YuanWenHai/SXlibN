@@ -11,7 +11,7 @@ import com.will.sxlib.base.NavigationFragment;
  */
 
 public class NavigationFragmentController {
-    private String  currentFragment;
+    private String  currentFragment = "";
 
     public void setCurrentFragment(AppCompatActivity activity, int containerId,NavigationItem item){
         if(currentFragment.equals(item.name())){

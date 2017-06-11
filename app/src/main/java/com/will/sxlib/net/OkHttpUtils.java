@@ -15,9 +15,10 @@ import okhttp3.Response;
 public class OkHttpUtils {
     private static OkHttpUtils mInstance;
 
-    private final OkHttpClient mClient = new OkHttpClient();
+    private final OkHttpClient mClient;
 
     private OkHttpUtils(){
+         mClient = new OkHttpClient.Builder().followRedirects(false).followSslRedirects(false).build();
     }
 
     public static OkHttpUtils getInstance(){
