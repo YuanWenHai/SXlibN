@@ -19,22 +19,26 @@ import okhttp3.Response;
 public class UserNetworkHelper {
     private static final String LOGIN_URL = "http://opac.lib.sx.cn/opac/reader/doLogin";
     private static final String HISTORY_LOAN_LIST = "http://opac.lib.sx.cn/opac/loan/historyLoanList";
-    private static final String CURRENT_LOAN_LIST = "http://opac.lib.sx.cn/opac/loan/currentLoanList";
+    private static final String RENEW_LIST = "http://opac.lib.sx.cn/opac/loan/renewList";
+
     private String loginSession = "";
 
-    public void getHistoryLoanList(MyBookNetWorkCallback callback){
-        executeUrlRequest(HISTORY_LOAN_LIST,callback);
+    public void getHistoryLoanList(int pageIndex,MyBookNetWorkCallback callback){
+        RequestBody body = new FormBody.Builder().add("page",String.valueOf(pageIndex))
+                .add("rows","10").build();
+        Request.Builder builder = new Request.Builder().url(HISTORY_LOAN_LIST).post(body);
+        executeUrlRequest(builder,callback);
     }
-    public void getCurrentLoanList(MyBookNetWorkCallback callback){
-        executeUrlRequest(CURRENT_LOAN_LIST,callback);
+    public void getRenewList(MyBookNetWorkCallback callback){
+        executeUrlRequest(new Request.Builder().url(RENEW_LIST),callback);
     }
-    private void executeUrlRequest(final String url, final MyBookNetWorkCallback callback){
+    private void executeUrlRequest(final Request.Builder builder, final MyBookNetWorkCallback callback){
         if(loginSession.isEmpty()){
             getLoginSession(new LoginCallback() {
                 @Override
                 public void onGetLoginSession(String session) {
                     loginSession = session;
-                    executeUrlRequestWithLoginSession(url,callback);
+                    executeRequestWithLoginSession(builder,callback);
                 }
 
                 @Override
@@ -48,11 +52,11 @@ public class UserNetworkHelper {
                 }
             });
         }else{
-            executeUrlRequestWithLoginSession(url,callback);
+            executeRequestWithLoginSession(builder,callback);
         }
     }
-    private void executeUrlRequestWithLoginSession(final String url,final MyBookNetWorkCallback callback){
-        Request request = new Request.Builder().url(url).header("cookie",loginSession).build();
+    private void executeRequestWithLoginSession(final Request.Builder builder, final MyBookNetWorkCallback callback){
+        Request request = builder.header("cookie",loginSession).build();
         OkHttpUtils.getInstance().requestFromUrl(request, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -63,7 +67,7 @@ public class UserNetworkHelper {
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.code() == 302){
                     loginSession = "";
-                    executeUrlRequest(url,callback);
+                    executeUrlRequest(builder,callback);
                 }else if(response.code() == 200){
                     callback.onResponse(call,response);
                 }
@@ -74,9 +78,9 @@ public class UserNetworkHelper {
        getLoginSession(ConfigManager.getInstance().getUserAccount(),ConfigManager.getInstance().getUserPassword(),callback);
     }
     public void getLoginSession(String account,String password,final LoginCallback callback){
-        RequestBody formBoty = new FormBody.Builder().add("rdid",account)
+        RequestBody formBody = new FormBody.Builder().add("rdid",account)
                 .add("rdPasswd",password).build();
-        Request request = new Request.Builder().url(LOGIN_URL).post(formBoty).build();
+        Request request = new Request.Builder().url(LOGIN_URL).post(formBody).build();
         OkHttpUtils.getInstance().requestFromUrl(request, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -85,7 +89,8 @@ public class UserNetworkHelper {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() == 302){
+                //如果登陆成功，这里将收到一个重定向请求，通过重定向的Url判定是否登陆成功
+                if(response.code() == 302 && response.header("Location").contains("http://opac.lib.sx.cn/opac/reader/space")){
                     callback.onGetLoginSession(response.header("Set-Cookie").split(";")[0]);
                 }else{
                     callback.onPasswordIncorrect();

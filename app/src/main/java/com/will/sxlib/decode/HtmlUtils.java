@@ -2,6 +2,8 @@ package com.will.sxlib.decode;
 
 import android.util.Log;
 
+import com.will.sxlib.myBook.bean.MyHistoricalBookItem;
+import com.will.sxlib.myBook.bean.MyRenewBookItem;
 import com.will.sxlib.search.bean.BookSearchResult;
 
 import org.jsoup.Jsoup;
@@ -49,4 +51,72 @@ public class HtmlUtils {
         }
         return list;
     }
+
+    public static List<MyRenewBookItem> getMyRenewBookItemFromHtml(String html){
+        List<MyRenewBookItem> list = new ArrayList<>();
+        try{
+           Document document = Jsoup.parse(html);
+           Element table = document.getElementById("contentTable");
+           Elements items = table.getElementsByTag("tr");
+           MyRenewBookItem itemObj;
+           for(int i=0;i<items.size();i++){
+               Element item = items.get(i);
+               if(item.id().equals("contentHeader")){
+                   continue;
+               }
+               Elements attrs = item.getElementsByTag("td");
+               attrs.remove(0);
+               itemObj = new MyRenewBookItem();
+               itemObj.setBarCode(attrs.get(0).text());
+               itemObj.setTitle(attrs.get(1).text());
+               itemObj.setCallNo(attrs.get(2).text());
+               itemObj.setLocation(attrs.get(3).text());
+               itemObj.setType(attrs.get(4).text());
+               itemObj.setLoanDate(attrs.get(6).text());
+               itemObj.setReturnDate(attrs.get(7).text());
+               itemObj.setRenewCount(attrs.get(8).text());
+               list.add(itemObj);
+           }
+
+
+       }catch ( Exception e){
+           e.printStackTrace();
+           Log.e("HtmlUtils","on resolve html data error!");
+       }
+       return list;
+    }
+
+    public static List<MyHistoricalBookItem> getMyHistoricalItemFromHtml(String html){
+        List<MyHistoricalBookItem> list = new ArrayList<>();
+        try{
+            Document document = Jsoup.parse(html);
+            Element table = document.getElementById("contentTable");
+            Elements items = table.getElementsByTag("tr");
+            MyHistoricalBookItem itemObj;
+            for(int i=0;i<items.size();i++){
+                Element item = items.get(i);
+                if(item.id().equals("contentHeader")){
+                    continue;
+                }
+                Elements attrs = item.getElementsByTag("td");
+                itemObj = new MyHistoricalBookItem();
+                itemObj.setOperationType(attrs.get(0).text());
+                itemObj.setBarCode(attrs.get(1).text());
+                itemObj.setTitle(attrs.get(2).text());
+                itemObj.setAuthor(attrs.get(3).text());
+                itemObj.setCallNo(attrs.get(4).text());
+                itemObj.setLocation(attrs.get(5).text());
+                itemObj.setType(attrs.get(6).text());
+                itemObj.setOperationDate(attrs.get(7).text());
+                list.add(itemObj);
+            }
+
+
+        }catch ( Exception e){
+            e.printStackTrace();
+            Log.e("HtmlUtils","on resolve html data error!");
+        }
+        return list;
+    }
+
 }

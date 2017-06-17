@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 
 import com.will.sxlib.R;
 import com.will.sxlib.base.NavigationFragment;
+import com.will.sxlib.decode.HtmlUtils;
+import com.will.sxlib.myBook.bean.MyRenewBookItem;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -25,22 +28,45 @@ public class MyBookFragment extends NavigationFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        new UserNetworkHelper().getHistoryLoanList(new UserNetworkHelper.MyBookNetWorkCallback() {
+
+     /*   new UserNetworkHelper().getHistoryLoanList(2, new UserNetworkHelper.MyBookNetWorkCallback() {
             @Override
             void onPasswordIncorrect() {
-                Log.e("error","password incorrect");
+
             }
 
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("error","network error");
+
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.e("succeed,content is",response.body().string());
+                String content = response.body().string();
+                response.close();
+                List<MyHistoricalBookItem> list =  HtmlUtils.getMyHistoricalItemFromHtml(content);
+                Log.e("operation date is",list.get(0).getOperationDate());
             }
-        });
+        });*/
+     new UserNetworkHelper().getRenewList(new UserNetworkHelper.MyBookNetWorkCallback() {
+         @Override
+         void onPasswordIncorrect() {
+
+         }
+
+         @Override
+         public void onFailure(Call call, IOException e) {
+
+         }
+
+         @Override
+         public void onResponse(Call call, Response response) throws IOException {
+             String html = response.body().string();
+             response.close();
+             List<MyRenewBookItem> list = HtmlUtils.getMyRenewBookItemFromHtml(html);
+             Log.e("return date",list.get(0).getReturnDate());
+         }
+     });
         return inflater.inflate(R.layout.fragment_my_book,container,false);
     }
 
