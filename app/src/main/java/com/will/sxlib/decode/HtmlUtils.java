@@ -118,5 +118,23 @@ public class HtmlUtils {
         }
         return list;
     }
+    public static boolean isRenewSuccessful(String html){
+        return html.contains("续借成功");
+    }
+    public static String getUserName(String html){
+        String userName = "匿名用户";
+        try{
+            Element document = Jsoup.parse(html);
+            Elements navElement = document.select(".navbar_info_zh");
+            if(navElement.size() != 0){
+                String fullText = navElement.get(0).text().replaceAll(" ","");
+                userName = fullText.substring(fullText.indexOf("："));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("HtmlUtils","on resolve html data error!");
+        }
+        return userName;
+    }
 
 }

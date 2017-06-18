@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+   <android.support.design.widget.AppBarLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <android.support.v7.widget.Toolbar
+           android:id="@+id/fragment_my_book_toolbar"
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/toolbar_height"
+           app:title="@string/my_book"
+           app:theme="@style/ThemeOverlay.AppCompat.Dark">
+           <Switch
+               android:id="@+id/fragment_my_book_switch"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="end"
+               android:layout_marginEnd="10dp"/>
+       </android.support.v7.widget.Toolbar>
+       <android.support.design.widget.TabLayout
+           android:id="@+id/fragment_my_book_tab_layout"
+           android:layout_width="match_parent"
+           android:layout_height="40dp"
+           app:layout_scrollFlags="scroll|exitUntilCollapsed"/>
+   </android.support.design.widget.AppBarLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/fragment_my_book_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/my_book"/>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_marginTop="96dp"/>
+</android.support.design.widget.CoordinatorLayout>
