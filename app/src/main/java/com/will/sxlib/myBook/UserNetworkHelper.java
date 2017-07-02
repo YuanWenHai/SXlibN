@@ -28,8 +28,6 @@ public class UserNetworkHelper {
     private static UserNetworkHelper mInstance;
 
     private String loginSession = "";
-
-
     private UserNetworkHelper(){}
 
     public static UserNetworkHelper getInstance(){
@@ -164,8 +162,8 @@ public class UserNetworkHelper {
         });
     }
 
-     static abstract class MyBookNetworkCallback implements Callback{
-        abstract void onPasswordIncorrect();
+     public static abstract class MyBookNetworkCallback implements Callback{
+        public abstract void onPasswordIncorrect();
     }
     interface LoginCallback {
         void onGetLoginSession(String session);

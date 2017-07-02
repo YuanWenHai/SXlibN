@@ -23,11 +23,14 @@
            android:id="@+id/fragment_my_book_tab_layout"
            android:layout_width="match_parent"
            android:layout_height="40dp"
-           app:layout_scrollFlags="scroll|exitUntilCollapsed"/>
+           app:layout_scrollFlags="scroll|exitUntilCollapsed"
+           app:tabTextColor="@color/lightGrey"
+           app:tabSelectedTextColor="@color/white"
+           app:tabIndicatorColor="@color/white"/>
    </android.support.design.widget.AppBarLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/fragment_my_book_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="96dp"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </android.support.design.widget.CoordinatorLayout>

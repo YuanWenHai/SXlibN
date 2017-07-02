@@ -33,7 +33,7 @@ public class SearchAdapter extends AsyncLoadingAdapter<BookSearchResult> {
     private SearchUrlBuilder mUrlBuilder;
 
     public SearchAdapter(){
-        super(R.layout.fragment_search_item);
+        super(R.layout.item_fragment_search);
     }
 
     public void start(SearchUrlBuilder builder,OnLoadingListener listener){

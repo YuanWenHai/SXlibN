@@ -70,7 +70,7 @@ public class DialogUtils {
                 .customView(view,false).show();
     }
     private static ArrayAdapter<CharSequence> getSpinnerAdapter(Context context,@ArrayRes int res){
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,res,R.layout.dialog_search_setting_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,res,R.layout.item_dialog_search_setting_spinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         return adapter;
     }

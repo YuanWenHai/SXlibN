@@ -21,7 +21,9 @@ public class MyBookFragment extends NavigationFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_my_book,container,false);
+        View view = inflater.inflate(R.layout.fragment_my_book,container,false);
+        initializeView(view);
+        return view;
     }
 
     @Override
@@ -34,5 +36,8 @@ public class MyBookFragment extends NavigationFragment {
         ViewPager viewPager = (ViewPager) root.findViewById(R.id.fragment_my_book_view_pager);
         tabLayout.addTab(tabLayout.newTab().setText("借阅列表"));
         tabLayout.addTab(tabLayout.newTab().setText("历史借阅"));
+        LoanListViewPagerAdapter pagerAdapter = new LoanListViewPagerAdapter(getChildFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 }

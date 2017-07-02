@@ -56,7 +56,6 @@ public abstract class BaseLoadingAdapter<T> extends RecyclerView.Adapter<Recycle
     /**
      * <p>加载内容，当下拉至末尾时会调用此方法</p>
      * 因为是加载内容，故多为异步加载，在异步任务完成后，务必调用{@link #update(boolean)} 提交更新，无论成功与否.
-     * <p>@建议：如果任务失败/完成过快会造成loadingView显示时间过短，影响视觉效果，可以用postDelayed控制update的延时来控制</p>
      * @param page 加载页数，初始值为1
      *
      */

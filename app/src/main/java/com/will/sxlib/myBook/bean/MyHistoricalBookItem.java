@@ -10,10 +10,11 @@ public class MyHistoricalBookItem extends MyBookItem {
     //处理时间
     private String operationDate = "";
     //条目数量
-    private String totalCount = "";
+    private int totalCount;
     //著者
     private String author = "";
     private int currentPageIndex;
+    private int totalPageCount;
     public String getOperationDate() {
         return operationDate;
     }
@@ -37,4 +38,28 @@ public class MyHistoricalBookItem extends MyBookItem {
         this.author = author;
     }
 
+
+    public int getCurrentPageIndex() {
+        return currentPageIndex;
+    }
+
+    public void setCurrentPageIndex(int currentPageIndex) {
+        this.currentPageIndex = currentPageIndex;
+    }
+
+    public int getTotalPageCount() {
+        return totalPageCount;
+    }
+
+    public void setTotalPageCount(int totalPageCount) {
+        this.totalPageCount = totalPageCount;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
 }

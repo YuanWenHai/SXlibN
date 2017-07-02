@@ -35,7 +35,7 @@ public class BookStateAdapter extends RecyclerView.Adapter<BookStateAdapter.Book
 
     @Override
     public BookStateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BookStateViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_book_state_item,parent,false));
+        return new BookStateViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fragment_book_state,parent,false));
     }
 
     @Override

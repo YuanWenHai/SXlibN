@@ -90,6 +90,10 @@ public class HtmlUtils {
         List<MyHistoricalBookItem> list = new ArrayList<>();
         try{
             Document document = Jsoup.parse(html);
+            Element meneame = document.select(".meneame").first();
+            int currentPage = Integer.parseInt(meneame.select("b").first().text());
+            int totalCount = Integer.parseInt( meneame.select("span").get(0).text().replaceAll("[^0-9]",""));
+            int totalPage = Integer.parseInt( meneame.select("span").get(1).text().replaceAll("[^0-9]",""));
             Element table = document.getElementById("contentTable");
             Elements items = table.getElementsByTag("tr");
             MyHistoricalBookItem itemObj;
@@ -108,6 +112,11 @@ public class HtmlUtils {
                 itemObj.setLocation(attrs.get(5).text());
                 itemObj.setType(attrs.get(6).text());
                 itemObj.setOperationDate(attrs.get(7).text());
+
+                itemObj.setCurrentPageIndex(currentPage);
+                itemObj.setTotalPageCount(totalPage);
+                itemObj.setTotalCount(totalCount);
+
                 list.add(itemObj);
             }
 
