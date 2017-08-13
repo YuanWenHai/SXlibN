@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp">
+    android:layout_height="70dp">
     <TextView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:id="@+id/item_fragment_loan_list_icon"
         android:layout_marginStart="10dp"
         android:background="@drawable/circle_light_blue"
@@ -20,34 +20,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/item_fragment_loan_list_icon"
-        android:layout_marginStart="10dp"
-        android:layout_centerVertical="true">
+        android:layout_marginStart="20dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/linearLayout">
         <TextView
             android:id="@+id/item_fragment_loan_list_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="骑士的沙丘"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:textStyle="bold"
+            android:maxLines="1"
             android:textColor="@color/black"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/item_fragment_loan_list_location"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                tools:text="社科图书第二阅览室"
-                style="@style/loan_list_item_appearance" />
-            <TextView
-                android:id="@+id/item_fragment_loan_list_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="2017-06-18"
-                android:layout_marginEnd="10dp"
-                style="@style/loan_list_item_appearance"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/item_fragment_loan_list_location"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            tools:text="社科图书第二阅览室"
+            style="@style/loan_list_item_appearance" />
     </LinearLayout>
+    <TextView
+        android:id="@+id/item_fragment_loan_list_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="2017-06-18"
+        style="@style/loan_list_item_appearance"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="3dp"/>
 
 </RelativeLayout>

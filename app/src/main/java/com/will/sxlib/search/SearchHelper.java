@@ -47,7 +47,7 @@ public class SearchHelper {
     }
 
     private void requestSearchResultWithUrl(String url,final RequestCallback callback){
-        OkHttpUtils.getInstance().requestFromUrl(url, new Callback() {
+        OkHttpUtils.getInstance().makeRequest(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.post(new Runnable() {
@@ -78,7 +78,7 @@ public class SearchHelper {
             isbns = isbns + "," + result.getIsbn().replaceAll("-","");
         }
         String url = host + isbns;
-        OkHttpUtils.getInstance().requestFromUrl(url, new Callback() {
+        OkHttpUtils.getInstance().makeRequest(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mHandler.post(new Runnable() {

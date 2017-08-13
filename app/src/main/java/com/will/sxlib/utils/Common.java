@@ -1,5 +1,9 @@
 package com.will.sxlib.utils;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.support.annotation.ColorInt;
+import android.util.TypedValue;
 import android.widget.Toast;
 
 import com.will.sxlib.base.BaseApplication;
@@ -52,6 +56,13 @@ public class Common {
             e.printStackTrace();
         }
         return "";
+    }
+    @ColorInt
+    public static  int getThemeColor(Context context,int colorId){
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(colorId,typedValue,true);
+        return typedValue.data;
     }
 
 }

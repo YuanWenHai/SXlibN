@@ -36,7 +36,7 @@ public class OkHttpUtils {
         Request request = new Request.Builder().url(url).build();
         return getInstance().getClient().newCall(request);
     }
-    public void requestFromUrl(final String url, final Callback callback){
+    public void makeRequest(final String url, final Callback callback){
         Request request = new Request.Builder().url(url).build();
         mClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -53,7 +53,7 @@ public class OkHttpUtils {
     public OkHttpClient getClient(){
         return mClient;
     }
-    public void requestFromUrl(Request request,Callback callback){
+    public void makeRequest(Request request, Callback callback){
         mClient.newCall(request).enqueue(callback);
     }
 }

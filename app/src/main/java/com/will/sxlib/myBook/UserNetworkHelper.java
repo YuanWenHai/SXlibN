@@ -2,6 +2,7 @@ package com.will.sxlib.myBook;
 
 import com.will.sxlib.config.ConfigManager;
 import com.will.sxlib.net.OkHttpUtils;
+import com.will.sxlib.utils.Common;
 
 import java.io.IOException;
 
@@ -85,7 +86,7 @@ public class UserNetworkHelper {
     }
     private void executeRequestWithLoginSession(final Request.Builder builder, final MyBookNetworkCallback callback){
         Request request = builder.header("cookie",loginSession).build();
-        OkHttpUtils.getInstance().requestFromUrl(request, new Callback() {
+        OkHttpUtils.getInstance().makeRequest(request, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 callback.onFailure(call,e);
@@ -109,7 +110,7 @@ public class UserNetworkHelper {
         RequestBody formBody = new FormBody.Builder().add("rdid",account)
                 .add("rdPasswd",password).build();
         Request request = new Request.Builder().url(LOGIN_URL).post(formBody).build();
-        OkHttpUtils.getInstance().requestFromUrl(request, new Callback() {
+        OkHttpUtils.getInstance().makeRequest(request, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 callback.onFailure(call,e);
@@ -121,8 +122,12 @@ public class UserNetworkHelper {
                 if(response.code() == 302 && response.header("Location").contains("http://opac.lib.sx.cn/opac/reader/space")){
                     loginSession = response.header("Set-Cookie").split(";")[0];
                     callback.onGetLoginSession(loginSession);
-                }else{
+                    //200为密码错误的返回码
+                }else if (response.code() == 200){
                     callback.onPasswordIncorrect();
+                    //这里处理因为手机网络状态导致的404,500之类的错误码，也将其判定为网络错误
+                }else{
+                    callback.onFailure(call,new IOException());
                 }
             }
         });
@@ -140,12 +145,13 @@ public class UserNetworkHelper {
      * @param password
      * @param callback
      */
-    public void login(final String account, final String password, final MyBookNetworkCallback callback){
-        getLoginSession(account, password, new LoginCallback() {
+    public void login(final String account, String password, final MyBookNetworkCallback callback){
+        final String md5Password = Common.md5(password);
+        getLoginSession(account, md5Password, new LoginCallback() {
             @Override
             public void onGetLoginSession(String session) {
                 ConfigManager.getInstance().setUserAccount(account);
-                ConfigManager.getInstance().setUserPassword(password);
+                ConfigManager.getInstance().setUserPassword(md5Password);
                 Request.Builder builder = new Request.Builder().url(READER_SPACE_URL);
                 executeRequest(builder,callback);
             }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.will.sxlib.base.BaseApplication;
-import com.will.sxlib.utils.Common;
 
 /**
  * Created by Will on 2017/2/6.
@@ -60,7 +59,7 @@ public class ConfigManager {
         return sp.getString("user_password","");
     }
     public  void setUserPassword(String password){
-        spEditor.putString("user_password", Common.md5(password)).apply();
+        spEditor.putString("user_password", password).apply();
     }
 
 }

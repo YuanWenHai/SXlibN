@@ -24,14 +24,14 @@ import android.widget.TextView;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.will.recyclerviewloadingadapter.BaseLoadingAdapter;
 import com.will.recyclerviewloadingadapter.BaseRecyclerViewHolder;
-import com.will.sxlib.MainActivity;
 import com.will.sxlib.R;
 import com.will.sxlib.base.NavigationFragment;
-import com.will.sxlib.search.bean.BookSearchResult;
 import com.will.sxlib.bookDetail.BookDetailActivity;
 import com.will.sxlib.config.ConfigManager;
 import com.will.sxlib.db.DBUtil;
 import com.will.sxlib.dialog.DialogUtils;
+import com.will.sxlib.interfaces.Drawer;
+import com.will.sxlib.search.bean.BookSearchResult;
 
 /**
  * Created by will on 2017/2/4.
@@ -163,7 +163,7 @@ public class SearchFragment extends NavigationFragment {
             @Override
             public void onButtonClicked(int buttonCode) {
                 if(buttonCode == MaterialSearchBar.BUTTON_NAVIGATION){
-                    ((MainActivity)getActivity()).showNavigationDrawer();
+                    ((Drawer)getActivity()).triggerDrawer();
                 }
             }
         });

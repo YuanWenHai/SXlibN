@@ -16,8 +16,8 @@
     </style>
     <!--loan list item appearance-->
     <style name="loan_list_item_appearance" parent="base_item_text_appearance">
-        <item name="android:textColor">@color/grey</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/darkGrey</item>
+        <item name="android:textSize">14sp</item>
     </style>
     <style name="search_item_appearance" parent="base_item_text_appearance">
         <item name="android:layout_weight">1</item>

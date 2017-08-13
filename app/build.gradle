@@ -38,4 +38,5 @@ dependencies {
     compile 'me.zhanghai.android.materialratingbar:library:1.0.2'
     compile 'com.ms-square:expandableTextView:0.1.4'
     compile project(':MaterialSearchBar')
+    compile 'br.com.simplepass:loading-button-android:1.8.0'
 }
