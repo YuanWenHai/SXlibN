@@ -17,6 +17,8 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import okhttp3.Call;
 import okhttp3.Response;
 
+import static com.will.sxlib.interfaces.Loggable.STATE_LOGGED;
+
 /**
  * Created by Will on 2017/8/8.
  */
@@ -97,6 +99,7 @@ public class LoginActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 loginButton.doneLoadingAnimation(Common.getThemeColor(LoginActivity.this,R.attr.colorAccent), BitmapFactory.decodeResource(getResources(),R.drawable.ic_login_holo_dark));
+                                LoginStateManager.getInstance().notifyLoginStateChanged(STATE_LOGGED);
                             }
                         });
                     }
@@ -107,6 +110,5 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onDestroy(){
         super.onDestroy();
-
     }
 }
